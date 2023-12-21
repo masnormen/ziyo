@@ -16,16 +16,20 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "../../apps/ziyo/.next/types/**/*.ts",
-    "../../dist/apps/ziyo/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "../../apps/ziyo-fe/.next/types/**/*.ts",
+    "../../dist/apps/ziyo-fe/.next/types/**/*.ts",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1,5 +1,5 @@
 {
-  "name": "ziyo",
+  "name": "ziyo-fe",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/ziyo-fe",
   "projectType": "application",
@@ -22,16 +22,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "ziyo:build",
+        "buildTarget": "ziyo-fe:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "ziyo:build:development",
+          "buildTarget": "ziyo-fe:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "ziyo:build:production",
+          "buildTarget": "ziyo-fe:build:production",
           "dev": false
         }
       }
@@ -39,7 +39,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "ziyo:build:production"
+        "buildTarget": "ziyo-fe:build:production"
       }
     },
     "test": {

@@ -1,4 +1,4 @@
-import './global.css';
+import '../styles/tailwind.css';
 import { StyledComponentsRegistry } from './registry';
 
 export const metadata = {
