@@ -1,7 +1,7 @@
 {
   "name": "ziyo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/ziyo",
+  "sourceRoot": "apps/ziyo-fe",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/ziyo"
+        "outputPath": "dist/apps/ziyo-fe"
       },
       "configurations": {
         "development": {
-          "outputPath": "apps/ziyo"
+          "outputPath": "apps/ziyo-fe"
         },
         "production": {}
       }
@@ -46,7 +46,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/ziyo/jest.config.ts"
+        "jestConfig": "apps/ziyo-fe/jest.config.ts"
       }
     },
     "lint": {
