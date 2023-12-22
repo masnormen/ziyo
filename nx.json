@@ -47,7 +47,8 @@
     "@nx/react": {
       "application": {
         "babel": true
-      }
+      },
+      "library": {}
     },
     "@nx/next": {
       "application": {
