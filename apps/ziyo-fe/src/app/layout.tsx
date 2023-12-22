@@ -1,5 +1,16 @@
 import '../styles/tailwind.css';
+import '../styles/global.css';
+
+import { Inter } from 'next/font/google';
 import { StyledComponentsRegistry } from './registry';
+
+const bodyFont = Inter({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: 'normal',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+});
 
 export const metadata = {
   title: 'Welcome to demo2',
@@ -12,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={bodyFont.variable}>
       <body>
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
