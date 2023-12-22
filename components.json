@@ -3,13 +3,13 @@
   "style": "new-york",
   "rsc": false,
   "tailwind": {
-    "config": "apps/**/tailwind.config.js",
-    "css": "apps/**/app/global.css",
+    "config": "./libs/ui/src/config/tailwind.config.js",
+    "css": "./libs/ui/src/styles/tailwind.css",
     "baseColor": "stone",
     "cssVariables": true
   },
   "aliases": {
     "components": "@ziyo/ui/components",
-    "utils": "@ziyo/ui/utils"
+    "utils": "@ziyo/ui/lib/utils"
   }
 }

@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@ziyo/ui": ["./libs/ui/src/index.ts"],
-      "@ziyo/ui/*": ["./libs/ui/src/*"],
+      "@ziyo/ui/*": ["./libs/ui/src/components/ui/*"],
+      "@ziyo/ui/lib/*": ["./libs/ui/src/lib/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]

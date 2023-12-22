@@ -1,0 +1,4 @@
+{
+  "_comment": "This is only used for shadcn CLI",
+  "extends": "./tsconfig.base.json",
+}

@@ -5,7 +5,10 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": ["plugin:prettier/recommended"],
+      "extends": [
+        "plugin:tailwindcss/recommended",
+        "plugin:prettier/recommended"
+      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -39,5 +42,10 @@
       },
       "rules": {}
     }
-  ]
+  ],
+  "settings": {
+    "tailwindcss": {
+      "callees": ["classnames", "clsx", "ctl", "cn", "cva"]
+    }
+  }
 }
