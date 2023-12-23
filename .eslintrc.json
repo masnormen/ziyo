@@ -5,8 +5,12 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "plugins": ["simple-import-sort"],
       "extends": [
-        "plugin:tailwindcss/recommended",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
         "plugin:prettier/recommended"
       ],
       "rules": {
@@ -22,13 +26,25 @@
               }
             ]
           }
-        ]
+        ],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error"
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "parserOptions": {
+        "project": ["tsconfig.base.json"]
+      },
+      "rules": {
+        "@typescript-eslint/consistent-type-exports": "error",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/no-import-type-side-effects": "error"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
@@ -44,8 +60,9 @@
     }
   ],
   "settings": {
-    "tailwindcss": {
-      "callees": ["classnames", "clsx", "ctl", "cn", "cva"]
+    "import/resolver": {
+      "typescript": true,
+      "node": true
     }
   }
 }

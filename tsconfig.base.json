@@ -15,10 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ziyo/ui": ["./libs/ui/src/index.ts"],
-      "@ziyo/ui/*": ["./libs/ui/src/components/ui/*"],
-      "@ziyo/ui/lib/*": ["./libs/ui/src/lib/*"],
-    }
+      "@ziyo/ui": ["libs/ui/src/index.ts"],
+      "@ziyo/ui/*": ["libs/ui/src/components/ui/*"]
+    },
+    "verbatimModuleSyntax": true
   },
   "exclude": ["node_modules", "tmp"]
 }

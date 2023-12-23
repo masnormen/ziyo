@@ -9,7 +9,7 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@ziyo/ui/components",
-    "utils": "@ziyo/ui/lib/utils"
+    "components": "@ziyo/ui/..",
+    "utils": "@ziyo/ui/utils"
   }
 }
