@@ -1,0 +1,67 @@
+{
+  "name": "ziyo-be",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ziyo-be/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/ziyo-be",
+        "format": ["esm"],
+        "bundle": false,
+        "main": "apps/ziyo-be/src/main.ts",
+        "tsConfig": "apps/ziyo-be/tsconfig.app.json",
+        "assets": ["apps/ziyo-be/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ziyo-be:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ziyo-be:build:development"
+        },
+        "production": {
+          "buildTarget": "ziyo-be:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ziyo-be/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
