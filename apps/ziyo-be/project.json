@@ -15,7 +15,13 @@
         "bundle": false,
         "main": "apps/ziyo-be/src/main.ts",
         "tsConfig": "apps/ziyo-be/tsconfig.app.json",
-        "assets": ["apps/ziyo-be/src/assets"],
+        "assets": [
+          {
+            "input": "apps/ziyo-be/src",
+            "glob": "**/*.!(ts)",
+            "output": "."
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,

@@ -17,10 +17,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.6",
     "styled-components": "5.3.6",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@nx/esbuild": "17.2.6",
