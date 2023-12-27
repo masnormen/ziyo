@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@ziyo/ui/utils';
 import { Volume2 } from 'lucide-react';
 import { useRef } from 'react';
 
@@ -15,7 +16,7 @@ export function AudioPlay({
 }: JSX.IntrinsicElements['button'] & {
   text: string;
   latin: string;
-  voice: string;
+  voice: string | null;
   other?: string;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -27,18 +28,23 @@ export function AudioPlay({
 
   return (
     <div>
-      <audio
-        ref={audioRef}
-        className="mx-auto mt-2"
-        id="audio"
-        src={`data:audio/mpeg;base64,${audio.data?.data}`}
-      >
-        Umm, update your browser.
-      </audio>
+      {voice && (
+        <audio
+          ref={audioRef}
+          className="mx-auto mt-2"
+          id="audio"
+          src={`data:audio/mpeg;base64,${audio.data?.data}`}
+        >
+          Umm, update your browser.
+        </audio>
+      )}
 
       <button
         type="button"
-        className="flex flex-row items-center justify-center gap-1"
+        className={cn(
+          'flex flex-row items-center justify-center gap-1',
+          !voice && 'cursor-default',
+        )}
         onClick={() => {
           audioRef.current?.play().catch(() => {
             setTimeout(() => audioRef.current?.play(), 1000);
@@ -46,7 +52,9 @@ export function AudioPlay({
         }}
         {...props}
       >
-        {other ? `${other} ` : ''}/{latin}/ <Volume2 size={16} />
+        {other ? `${other} ` : ''}
+        <span className="italic">/ {latin} /</span>
+        {voice && <Volume2 size={16} />}
       </button>
     </div>
   );

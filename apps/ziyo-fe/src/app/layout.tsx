@@ -1,12 +1,12 @@
 import '../styles/global.css';
 
-import { Inter } from 'next/font/google';
+import { Noto_Sans } from 'next/font/google';
 
 import { ClientProviders } from '../providers/client';
 import { StyledComponentsRegistry } from './registry';
 
-const bodyFont = Inter({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+const bodyFont = Noto_Sans({
+  weight: ['400', '500', '600', '700'],
   style: 'normal',
   subsets: ['latin'],
   display: 'swap',

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-type TTSReturn = {
+type TextToSpeechResponse = {
   data: string;
   success: boolean;
   error: null;
@@ -10,7 +10,7 @@ export function useAudioQuery({
   voice,
   text,
 }: {
-  voice: string;
+  voice: string | null;
   text: string;
 }) {
   return useQuery({
@@ -28,7 +28,7 @@ export function useAudioQuery({
             'Content-Type': 'application/json',
           },
         },
-      ).then((res) => res.json())) as Promise<TTSReturn>;
+      ).then((res) => res.json())) as Promise<TextToSpeechResponse>;
       return res;
     },
     enabled: Boolean(voice && text),
