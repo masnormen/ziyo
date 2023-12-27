@@ -17,5 +17,11 @@
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "project-relative",
   "javascript.preferences.importModuleSpecifier": "project-relative",
+  "javascript.preferences.autoImportFileExcludePatterns": [
+    "**/node_modules/@radix-ui/**"
+  ],
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "**/node_modules/@radix-ui/**"
+  ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

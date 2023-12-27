@@ -2,6 +2,7 @@ import '../styles/global.css';
 
 import { Inter } from 'next/font/google';
 
+import { ClientProviders } from '../providers/client';
 import { StyledComponentsRegistry } from './registry';
 
 const bodyFont = Inter({
@@ -24,12 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={bodyFont.variable}>
-      <body>
-        <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] [background-size:14px_24px]">
-          <div className="absolute inset-x-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
-        </div>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-      </body>
+      <ClientProviders>
+        <body>
+          <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] [background-size:14px_24px]">
+            <div className="absolute inset-x-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
+          </div>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </body>
+      </ClientProviders>
     </html>
   );
 }
