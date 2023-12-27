@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const Reading = z.union([
+export const Reading = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('zh'),
     pinyinWithNumber: z.string(),
@@ -28,10 +28,14 @@ const ReadingMeaning = z.object({
   meanings: z.array(z.string()),
 });
 
+type ReadingMeaning = z.infer<typeof ReadingMeaning>;
+
 const Nanori = z.object({
   hiragana: z.string(),
   latin: z.string(),
 });
+
+type Nanori = z.infer<typeof Nanori>;
 
 export const Kanji = z.object({
   literal: z.string(),
@@ -41,15 +45,13 @@ export const Kanji = z.object({
   radical: z.number().nullable(),
   readingMeanings: z
     .string()
-    .transform((str) => JSON.parse(str))
-    .transform<z.infer<typeof ReadingMeaning>>((arr) =>
-      arr.map(ReadingMeaning.parse),
+    .transform(
+      (str) => JSON.parse(str).map(ReadingMeaning.parse) as ReadingMeaning[],
     )
     .nullable(),
   nanori: z
     .string()
-    .transform((str) => JSON.parse(str))
-    .transform<z.infer<typeof Nanori>>((arr) => arr.map(Nanori.parse)),
+    .transform((str) => JSON.parse(str).map(Nanori.parse) as Nanori[]),
 });
 
 export type Kanji = z.infer<typeof Kanji>;

@@ -1,4 +1,5 @@
 import { serve } from '@hono/node-server';
+import { Kanji } from '@ziyo/types';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
@@ -7,8 +8,6 @@ import path from 'path';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
-
-import { Kanji } from './schema/db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
