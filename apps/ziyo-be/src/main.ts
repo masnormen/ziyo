@@ -1,13 +1,17 @@
 import { serve } from '@hono/node-server';
-import { Kanji } from '@ziyo/types';
+import { Kanji, KanjiList } from '@ziyo/types';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
+import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
 import path from 'path';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
+import { z } from 'zod';
+
+import { err, ok } from './utils/response';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -36,16 +40,52 @@ const app = new Hono()
     );
 
     const parsed = Kanji.safeParse(res);
-
     if (!parsed.success) {
-      c.status(404);
-      return c.json({ error: 'Kanji not found' });
+      throw new HTTPException(500, {
+        message: "There's a problem processing your request.",
+      });
     }
-    return c.json(parsed.data);
+
+    return c.json(ok(parsed.data));
+  })
+  .get('/kanji/by-reading/:reading', async (c) => {
+    const { reading } = c.req.param();
+    const query = c.req.query() as {
+      limit?: string;
+      offset?: string;
+    };
+
+    const parsedQuery = z
+      .object({
+        limit: z.coerce.number().default(10),
+        offset: z.coerce.number().default(0),
+      })
+      .safeParse(query);
+
+    if (!reading || !parsedQuery.success) {
+      throw new HTTPException(400, {
+        message: 'Invalid readings, limit, or offset',
+      });
+    }
+
+    const { limit, offset } = parsedQuery.data;
+
+    const res = await db.get<(typeof Kanji)['_input'][]>(
+      "SELECT * FROM 'kanji' WHERE readingMeanings LIKE ? LIMIT ? OFFSET ?",
+      [`%${reading}%`, limit, offset],
+    );
+
+    const parsed = KanjiList.safeParse(res);
+    if (!parsed.success) {
+      throw new HTTPException(500, {
+        message: "There's a problem processing your request.",
+      });
+    }
+    return c.json(ok(parsed.data));
   })
   .notFound((c) => {
     c.status(404);
-    return c.json({ error: 'Not found' });
+    return c.json(err(new Error('Not found')));
   });
 
 export type AppType = typeof app;

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ziyo/be": ["apps/ziyo-be/src/main.ts"],
       "@ziyo/types": ["libs/types/src/index.ts"],
       "@ziyo/types/*": ["libs/types/src/*"],
       "@ziyo/ui": ["libs/ui/src/index.ts"],

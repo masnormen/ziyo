@@ -66,6 +66,10 @@ export const Kanji = z.object({
 
 export type Kanji = z.infer<typeof Kanji>;
 
+export const KanjiList = z.array(Kanji);
+
+export type KanjiList = z.infer<typeof KanjiList>;
+
 export const TatoebaResponse = z.object({
   paging: z.object({
     Sentences: z.object({

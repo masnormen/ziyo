@@ -8,7 +8,7 @@ export function Chip({
   return (
     <span
       className={cn(
-        'inline-block cursor-default rounded-full bg-gray-200 px-2 py-1 text-xs font-bold text-gray-900 transition',
+        'inline-block cursor-default rounded-full bg-gray-200 px-2 py-1 text-xs font-bold text-gray-900 shadow-sm transition',
         className,
       )}
       {...props}

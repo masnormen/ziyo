@@ -54,7 +54,7 @@ export function AudioPlay({
       >
         {other ? `${other} ` : ''}
         <span className="italic">/ {latin} /</span>
-        {voice && <Volume2 size={16} />}
+        {voice && <Volume2 className="stroke-[3] text-blue-800" size={16} />}
       </button>
     </div>
   );

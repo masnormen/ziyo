@@ -1,5 +1,5 @@
 import { isHan } from '@scriptin/is-han';
-import type { Kanji, Reading } from '@ziyo/types';
+import type { Reading } from '@ziyo/types';
 import { TatoebaResponse } from '@ziyo/types';
 import {
   Tooltip,
@@ -10,8 +10,9 @@ import {
 import { Fragment } from 'react';
 import type { z } from 'zod';
 
-import { AudioPlay } from '../../components/AudioPlay';
-import { Chip } from '../../components/Chip';
+import { AudioPlay } from '../../../components/AudioPlay';
+import { Chip } from '../../../components/Chip';
+import { api } from '../../../lib/api';
 
 type GetReadingType<T extends z.infer<typeof Reading>['type']> = Extract<
   (typeof Reading)['_output'],
@@ -39,24 +40,23 @@ const KanjiLink = ({
   highlight?: boolean;
 }) =>
   `<a href="${kanji}" class="underline decoration-gray-400 underline-offset-4 hover:no-underline${
-    highlight ? ` font-bold` : ''
+    highlight ? ` font-semibold` : ''
   }">${kanji}</a>`;
 
 export default async function KanjiPage({ params }: KanjiPageProps) {
-  const res1 = await fetch(
-    `http://127.0.0.1:3000/kanji/${decodeURIComponent(params.kanji)}`,
+  const res1 = await api.kanji[':kanji']
+    .$get({
+      param: {
+        kanji: decodeURIComponent(params.kanji),
+      },
+    })
+    .then(async (res) => (await res.json()).data);
+
+  const res2 = await fetch(
+    `https://tatoeba.org/en/api_v0/search?from=jpn&has_audio=&list=3185&native=&orphans=no&query=${params.kanji}&sort=random&sort_reverse=&tags=&to=eng&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=eng&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=5`,
     {
       next: {
         revalidate: 0,
-      },
-    },
-  ).then((res) => res.json() as Promise<Kanji>);
-
-  const res2 = await fetch(
-    `https://tatoeba.org/en/api_v0/search?from=jpn&has_audio=&list=3185&native=&orphans=no&query=${params.kanji}&sort=random&sort_reverse=&tags=&to=eng&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=eng&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=10`,
-    {
-      next: {
-        revalidate: 60 * 60 * 6,
       },
     },
   ).then(async (res) => TatoebaResponse.parse(await res.json()));
@@ -80,7 +80,7 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
   });
 
   return (
-    <div className="flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-8 py-32">
+    <div className="mx-auto flex h-full w-full max-w-[600px] flex-col items-center gap-8 py-32">
       <h1 lang="ja" className="mb-4 text-8xl font-bold">
         {kanji.literal}
       </h1>
@@ -91,7 +91,10 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
           <TooltipProvider>
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
-                <Chip lang="zh-Hans" className="text-2xl font-normal">
+                <Chip
+                  lang="zh-Hans"
+                  className="bg-red-100 text-2xl font-normal"
+                >
                   {kanji.variants.simplified}
                 </Chip>
               </TooltipTrigger>
@@ -104,7 +107,10 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
           <TooltipProvider>
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
-                <Chip lang="zh-Hant" className="text-2xl font-normal">
+                <Chip
+                  lang="zh-Hant"
+                  className="bg-slate-200 text-2xl font-normal"
+                >
                   {kanji.variants.kyujitai}
                 </Chip>
               </TooltipTrigger>
@@ -119,7 +125,7 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
           <TooltipProvider>
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
-                <Chip lang="ko" className="text-2xl font-normal">
+                <Chip lang="ko" className="bg-blue-100 text-2xl font-normal">
                   {kanji.variants.kyujitai}
                 </Chip>
               </TooltipTrigger>
@@ -154,7 +160,7 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
                               {r.katakana}
                             </Chip>
                           </TooltipTrigger>
-                          <TooltipContent>
+                          <TooltipContent side="bottom">
                             <AudioPlay
                               voice="jp_001"
                               text={r.katakana}
@@ -184,7 +190,7 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
                               {r.hiragana}
                             </Chip>
                           </TooltipTrigger>
-                          <TooltipContent>
+                          <TooltipContent side="bottom">
                             <AudioPlay
                               voice="jp_001"
                               text={r.hiragana}
@@ -218,7 +224,7 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
                               {r.pinyinWithDiacritics}
                             </Chip>
                           </TooltipTrigger>
-                          <TooltipContent>
+                          <TooltipContent side="bottom">
                             <AudioPlay
                               voice={null}
                               text={r.pinyinWithDiacritics}
@@ -249,9 +255,12 @@ export default async function KanjiPage({ params }: KanjiPageProps) {
                               {r.hangeul}
                             </Chip>
                           </TooltipTrigger>
-                          <TooltipContent className="flex flex-col items-center justify-center">
+                          <TooltipContent
+                            side="bottom"
+                            className="flex flex-col items-center justify-center"
+                          >
                             <span className="text-xs">
-                              Sound might not be accurate
+                              *Might not be accurate
                             </span>
                             <AudioPlay
                               voice="kr_002"
