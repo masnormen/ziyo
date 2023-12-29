@@ -1,73 +1,30 @@
 import { z } from 'zod';
-
-export const Reading = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('zh'),
-    pinyinWithNumber: z.string(),
-    pinyinWithDiacritics: z.string(),
-  }),
-  z.object({
-    type: z.literal('ko'),
-    hangeul: z.string(),
-    latin: z.string(),
-  }),
-  z.object({
-    type: z.literal('ja_onyomi'),
-    katakana: z.string(),
-    latin: z.string(),
-  }),
-  z.object({
-    type: z.literal('ja_kunyomi'),
-    hiragana: z.string(),
-    latin: z.string(),
-  }),
-]);
-
-const ReadingMeaning = z.object({
-  readings: z.array(Reading),
-  meanings: z.array(z.string()),
-});
-
-type ReadingMeaning = z.infer<typeof ReadingMeaning>;
-
-const Nanori = z.object({
-  hiragana: z.string(),
-  latin: z.string(),
-});
-
-type Nanori = z.infer<typeof Nanori>;
-
-const Variants = z.object({
-  kyujitai: z.string().nullable(),
-  simplified: z.string().nullable(),
-});
-
-type Variants = z.infer<typeof Variants>;
+import { zu } from 'zod_utilz';
 
 export const Kanji = z.object({
   literal: z.string(),
-  variants: z
-    .string()
-    .transform((str) => Variants.parse(JSON.parse(str)) as Variants),
+  literal_kyujitai: z.string().nullable(),
+  literal_simplified: z.string().nullable(),
+  frequency: z.number().nullable(),
   strokeCounts: z.number(),
   grade: z.number().nullable(),
   jlpt: z.number().nullable(),
   radical: z.number().nullable(),
-  readingMeanings: z
-    .string()
-    .transform(
-      (str) => JSON.parse(str).map(ReadingMeaning.parse) as ReadingMeaning[],
-    )
-    .nullable(),
-  nanori: z
-    .string()
-    .transform((str) => JSON.parse(str).map(Nanori.parse) as Nanori[]),
+  reading_zh_pinyin_numbered: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_zh_pinyin_diacritics: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ko_hangeul: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ko_latin: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_onyomi_katakana: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_onyomi_latin: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_kunyomi_hiragana: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_kunyomi_latin: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_nanori_hiragana: zu.stringToJSON().pipe(z.array(z.string())),
+  reading_ja_nanori_latin: zu.stringToJSON().pipe(z.array(z.string())),
+  meanings: zu.stringToJSON().pipe(z.array(z.string())),
 });
-
 export type Kanji = z.infer<typeof Kanji>;
 
 export const KanjiList = z.array(Kanji);
-
 export type KanjiList = z.infer<typeof KanjiList>;
 
 export const TatoebaResponse = z.object({

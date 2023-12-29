@@ -74,9 +74,15 @@ dependencies:
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
+  wanakana:
+    specifier: ^5.3.1
+    version: 5.3.1
   zod:
     specifier: ^3.22.4
     version: 3.22.4
+  zod_utilz:
+    specifier: ^0.7.3
+    version: 0.7.3(zod@3.22.4)
 
 devDependencies:
   '@nx/esbuild':
@@ -1561,6 +1567,17 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
+  /@deno/shim-deno-test@0.4.0:
+    resolution: {integrity: sha512-oYWcD7CpERZy/TXMTM9Tgh1HD/POHlbY9WpzmAk+5H8DohcxG415Qws8yLGlim3EaKBT2v3lJv01x4G0BosnaQ==}
+    dev: false
+
+  /@deno/shim-deno@0.12.0:
+    resolution: {integrity: sha512-nD/Izdp4RfU35rip2Jx4lP1WOWY8qAvGLpB3wvjlwgut237/RS4PwhLdmYnxDBXdsjjWMx8sDxmdHWs35GF3yA==}
+    dependencies:
+      '@deno/shim-deno-test': 0.4.0
+      which: 2.0.2
+    dev: false
+
   /@emotion/is-prop-valid@1.2.1:
     resolution: {integrity: sha512-61Mf7Ufx4aDxx1xlDeOm8aFFigGHE4z+0sKCa+IHCeZKiyP9RLD0Mmx7m8b9/Cf37f7NAvQOOJAbQQGVr5uERw==}
     dependencies:
@@ -1818,6 +1835,11 @@ packages:
     resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@fastify/busboy@2.1.0:
+    resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
+    engines: {node: '>=14'}
+    dev: false
 
   /@floating-ui/core@1.5.2:
     resolution: {integrity: sha512-Ii3MrfY/GAIN3OhXNzpCKaLxHQfJF9qvwq/kEJYdqDxeIHa01K8sldugal6TmeeXl+WMvhv9cnVzUTaFFJF09A==}
@@ -10722,6 +10744,13 @@ packages:
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  /undici@5.28.2:
+    resolution: {integrity: sha512-wh1pHJHnUeQV5Xa8/kyQhO7WFa8M34l026L5P/+2TYiakvGy5Rdc8jWZVyG7ieht/0WgJLEd3kcU5gKx+6GC8w==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      '@fastify/busboy': 2.1.0
+    dev: false
+
   /unicode-canonical-property-names-ecmascript@2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==}
     engines: {node: '>=4'}
@@ -10891,6 +10920,11 @@ packages:
     dependencies:
       makeerror: 1.0.12
     dev: true
+
+  /wanakana@5.3.1:
+    resolution: {integrity: sha512-OSDqupzTlzl2LGyqTdhcXcl6ezMiFhcUwLBP8YKaBIbMYW1wAwDvupw2T9G9oVaKT9RmaSpyTXjxddFPUcFFIw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /watchpack@2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
@@ -11162,4 +11196,14 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
+
+  /zod_utilz@0.7.3(zod@3.22.4):
+    resolution: {integrity: sha512-rLWnXBmNQeY0zSC0cCXy7Y+Jx6ohKBoiOiGwD1kwgc/MnZ23YOMzJa/1cpvZE9+y4btrk6u34zd3o4E6SKUIPw==}
+    peerDependencies:
+      zod: ^3.21.4
+    dependencies:
+      '@deno/shim-deno': 0.12.0
+      undici: 5.28.2
+      zod: 3.22.4
     dev: false

@@ -28,7 +28,9 @@
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "tslib": "^2.6.2",
-    "zod": "^3.22.4"
+    "wanakana": "^5.3.1",
+    "zod": "^3.22.4",
+    "zod_utilz": "^0.7.3"
   },
   "devDependencies": {
     "@nx/esbuild": "17.2.6",
