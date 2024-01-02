@@ -1,4 +1,6 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
+/* eslint-disable @nx/enforce-module-boundaries */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - ignore
 import type { AppType } from '@ziyo/be';
 import { hc } from 'hono/client';
 

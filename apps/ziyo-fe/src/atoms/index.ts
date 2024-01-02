@@ -1,3 +1,5 @@
 import { atom } from 'jotai';
 
-export const audioFileAtom = atom<string | null>(null);
+export const searchAtom = atom<string>('');
+export const searchResultAtom = atom<string[]>([]);
+export const valueAtom = atom<string>('');

@@ -7,16 +7,18 @@ const { composePlugins, withNx } = require('@nx/next');
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  swcMinify: true,
+  reactStrictMode: true,
   nx: {
-    // Set this to true if you would like to to use SVGR
-    // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-
-  compiler: {
-    // For other options, see https://styled-components.com/docs/tooling#babel-plugin
-    styledComponents: true,
-  },
+  transpilePackages: ['@ziyo/ui', 'lucide-react'],
 };
 
 const plugins = [

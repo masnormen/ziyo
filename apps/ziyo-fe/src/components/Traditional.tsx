@@ -1,5 +1,3 @@
-'use client';
-
 import Kyujitai from 'kyujitai';
 
 export function Traditional({ children }: { children: string }) {

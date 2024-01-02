@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@ziyo/ui/utils';
 import { Volume2 } from 'lucide-react';
 import { useRef } from 'react';

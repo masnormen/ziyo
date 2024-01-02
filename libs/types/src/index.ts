@@ -27,6 +27,34 @@ export type Kanji = z.infer<typeof Kanji>;
 export const KanjiList = z.array(Kanji);
 export type KanjiList = z.infer<typeof KanjiList>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ArrayWithTotalCount = <T extends z.ZodArray<z.AnyZodObject>>(
+  type: T,
+) => {
+  type ObjectType = T extends z.ZodArray<infer A extends z.AnyZodObject>
+    ? A extends z.ZodObject<infer B>
+      ? B
+      : never
+    : never;
+
+  const newType = type._def.type.merge(
+    z.object({
+      total_count: z.number(),
+    }),
+  );
+  return z.array(newType) as z.ZodArray<
+    z.ZodObject<ObjectType & { total_count: z.ZodNumber }>
+  >;
+};
+
+// export type ArrayWithTotalCount<
+//   T extends z.ZodArray<A>,
+//   A extends z.ZodObject<{
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     [x: string]: any;
+//   }>,
+// > = typeof;
+
 export const TatoebaResponse = z.object({
   paging: z.object({
     Sentences: z.object({
