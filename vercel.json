@@ -1,5 +1,13 @@
 {
+  "functions": {
+    "api/index.js": {
+      "runtime": "@vercel/node@3.0.14"
+    }
+  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/dist/apps/ziyo-be/main.js" }
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.js"
+    }
   ]
 }

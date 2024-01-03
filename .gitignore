@@ -4,6 +4,7 @@
 dist
 tmp
 /out-tsc
+/api
 
 # dependencies
 node_modules
@@ -42,3 +43,4 @@ Thumbs.db
 
 # Next.js
 .next
+.vercel

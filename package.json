@@ -77,6 +77,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.4.1",
     "nx": "17.2.6",
+    "nx-ignore": "^17.2.2",
     "postcss": "8.4.32",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",

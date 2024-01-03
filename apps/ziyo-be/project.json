@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/ziyo-be",
         "format": ["esm"],
         "bundle": true,
-        "main": "apps/ziyo-be/src/main.ts",
+        "main": "apps/ziyo-be/src/index.ts",
         "tsConfig": "apps/ziyo-be/tsconfig.app.json",
         "assets": [
           {
