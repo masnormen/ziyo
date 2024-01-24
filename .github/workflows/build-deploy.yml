@@ -34,7 +34,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Build and push container image
-        run: pnpm exec nx container ${{ env.IMAGE_NAME }}
+        run: pnpm nx container ${{ env.IMAGE_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
