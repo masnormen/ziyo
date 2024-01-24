@@ -7,10 +7,7 @@ on:
 jobs:
   check-affected:
     runs-on: ubuntu-latest
-    permissions:
-      contents: "read"
-      actions: "read"
-      pull-requests: "read"
+    permissions: write-all
     steps:
       - name: Checkout
         uses: actions/checkout@v4
