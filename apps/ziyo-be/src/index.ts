@@ -1,4 +1,4 @@
-import { handle } from '@hono/node-server/vercel';
+import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
 import { isHan } from '@scriptin/is-han';
 import { ArrayWithTotalCount, Kanji, KanjiList } from '@ziyo/types';
@@ -251,10 +251,12 @@ const app = new Hono()
 
 export type AppType = typeof app;
 
-export { app };
-
-// serve(app, (info) => {
-//   console.log(`✅ Listening on http://localhost:${info.port}`);
-// });
-
-export default handle(app);
+serve(
+  {
+    fetch: app.fetch,
+    port: Number(process.env.PORT || 3000),
+  },
+  (info) => {
+    console.log(`✅ Listening on http://localhost:${info.port}`);
+  },
+);

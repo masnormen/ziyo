@@ -67,6 +67,26 @@
       "options": {
         "jestConfig": "apps/ziyo-be/jest.config.ts"
       }
+    },
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": ["build"],
+      "defaultConfiguration": "production",
+      "options": {
+        "engine": "docker",
+        "context": "dist/apps/ziyo-be",
+        "file": "apps/ziyo-be/Dockerfile"
+      },
+      "configurations": {
+        "local": {
+          "tags": ["ziyo-be-dev:latest"],
+          "push": false
+        },
+        "production": {
+          "tags": ["ziyo-be-production:latest"],
+          "push": false
+        }
+      }
     }
   },
   "tags": []

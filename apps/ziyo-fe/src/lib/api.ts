@@ -4,4 +4,4 @@
 import type { AppType } from 'apps/ziyo-be/src';
 import { hc } from 'hono/client';
 
-export const { api } = hc<AppType>('http://127.0.0.1:3000/');
+export const { api } = hc<AppType>(process.env.NEXT_PUBLIC_API_URL!);
