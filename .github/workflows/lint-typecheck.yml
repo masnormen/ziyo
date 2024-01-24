@@ -46,12 +46,12 @@ jobs:
           main-branch-name: ${{ github.event.pull_request.base.ref || github.ref_name }}
 
       # This line is needed for nx affected to work when CI is running on a PR
-      # Run only if current branch is not dev or master
+      # Run only if current branch is not dev or main
       # Disable exit on error because not too needed
-      - if: github.ref_name != 'master' && github.ref_name != 'dev'
+      - if: github.ref_name != 'main' && github.ref_name != 'dev'
         run: |
           set +x
-          git branch --track master origin/master
+          git branch --track main origin/main
           git branch --track dev origin/dev
         continue-on-error: true
 

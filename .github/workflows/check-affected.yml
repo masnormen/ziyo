@@ -34,9 +34,9 @@ jobs:
         run: |
           if pnpm nx show projects --affected | grep -q "ziyo-fe"
           then
-            echo "build=yes" >> $GITHUB_OUTPUT
+            echo "build=yes" >> "$GITHUB_OUTPUT"
           else
-            echo "build=no" >> $GITHUB_OUTPUT
+            echo "build=no" >> "$GITHUB_OUTPUT"
           fi
 
       - name: ziyo-be check
@@ -44,9 +44,9 @@ jobs:
         run: |
           if pnpm nx show projects --affected | grep -q "ziyo-be"
           then
-            echo "build=yes" >> $GITHUB_OUTPUT
+            echo "build=yes" >> "$GITHUB_OUTPUT"
           else
-            echo "build=no" >> $GITHUB_OUTPUT
+            echo "build=no" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Invoke ziyo-fe build
