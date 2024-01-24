@@ -35,16 +35,20 @@ jobs:
       - name: ziyo-fe check
         id: check-ziyo-fe
         run: |
+          set +x
           OUTPUT=$(pnpm nx show projects --affected)
           echo "$OUTPUT" | grep -q "ziyo-fe"
-          echo ::set-output name=status::$?
+          echo "status=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
 
       - name: ziyo-be check
         id: check-ziyo-be
         run: |
+          set +x
           OUTPUT=$(pnpm nx show projects --affected)
           echo "$OUTPUT" | grep -q "ziyo-be"
-          echo ::set-output name=status::$?
+          echo "status=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
 
       - name: Invoke ziyo-fe build
         if: steps.check-ziyo-fe.outputs.status == '0'
