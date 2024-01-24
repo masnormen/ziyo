@@ -25,6 +25,9 @@ jobs:
           node-version: '20.11.0'
           cache: 'pnpm'
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: ${{ github.event.pull_request.base.ref || github.ref_name }}
