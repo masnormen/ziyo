@@ -1,4 +1,4 @@
-name: Check Affected
+name: Check Affected and Trigger Build
 on:
   push:
     branches:
@@ -32,35 +32,35 @@ jobs:
         with:
           main-branch-name: ${{ github.event.pull_request.base.ref || github.ref_name }}
 
-      - name: ziyo-fe check
-        id: check-ziyo-fe
+      - name: Lint and typecheck
+        run: pnpm nx affected -t lint,typecheck --parallel=3 --configuration=ci
+
+      - name: Get affected projects
+        id: get-affected
         run: |
           if pnpm nx show projects --affected | grep -q "ziyo-fe"
           then
-            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "ziyo-fe=yes" >> "$GITHUB_OUTPUT"
           else
-            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "ziyo-fe=no" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: ziyo-be check
-        id: check-ziyo-be
-        run: |
           if pnpm nx show projects --affected | grep -q "ziyo-be"
           then
-            echo "build=yes" >> "$GITHUB_OUTPUT"
+            echo "ziyo-be=yes" >> "$GITHUB_OUTPUT"
           else
-            echo "build=no" >> "$GITHUB_OUTPUT"
+            echo "ziyo-be=no" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Invoke ziyo-fe build
-        if: steps.check-ziyo-fe.outputs.build == 'yes'
+        if: steps.get-affected.outputs.ziyo-fe == 'yes'
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: build-deploy.yml
           inputs: '{ "image-name": "ziyo-fe" }'
 
       - name: Invoke ziyo-be build
-        if: steps.check-ziyo-be.outputs.build == 'yes'
+        if: steps.get-affected.outputs.ziyo-be == 'yes'
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: build-deploy.yml

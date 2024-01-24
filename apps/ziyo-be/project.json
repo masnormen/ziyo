@@ -75,7 +75,8 @@
       "options": {
         "engine": "docker",
         "context": "dist/apps/ziyo-be",
-        "file": "apps/ziyo-be/Dockerfile"
+        "file": "apps/ziyo-be/Dockerfile",
+        "platforms": ["linux/amd64"]
       },
       "configurations": {
         "local": {

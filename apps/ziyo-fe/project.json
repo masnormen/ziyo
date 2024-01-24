@@ -62,7 +62,8 @@
       "options": {
         "engine": "docker",
         "context": "dist/apps/ziyo-fe",
-        "file": "apps/ziyo-fe/Dockerfile"
+        "file": "apps/ziyo-fe/Dockerfile",
+        "platforms": ["linux/amd64"]
       },
       "configurations": {
         "local": {

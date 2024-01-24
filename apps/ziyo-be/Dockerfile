@@ -13,10 +13,9 @@ RUN apk add --no-cache dumb-init
 ENV NODE_ENV production
 ENV PORT 4200
 WORKDIR /usr/src/app
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=deps /usr/src/app/package.json ./package.json
-COPY . .
-RUN chown -R node:node .
+COPY --from=deps --chown=node:node /usr/src/app/node_modules ./node_modules
+COPY --from=deps --chown=node:node /usr/src/app/package.json ./package.json
+COPY --chown=node:node . .
 USER node
 EXPOSE 4200
 CMD ["dumb-init", "node", "index.js"]

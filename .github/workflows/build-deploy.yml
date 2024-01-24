@@ -33,6 +33,9 @@ jobs:
           node-version: '20.11.0'
           cache: 'pnpm'
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Build and push container image
         run: pnpm nx container ${{ env.IMAGE_NAME }}
 
@@ -41,17 +44,17 @@ jobs:
     needs: build_and_push
     steps:
       - name: Deploy to Droplet
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSHKEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           envs: IMAGE_NAME,REPOSITORY_NAME
           script: |
             # Stop and remove old container
             docker stop $(echo $IMAGE_NAME)
             docker rm $(echo $IMAGE_NAME)
+            docker image rm $(docker images "$(echo $REPOSITORY_NAME)/$(echo $IMAGE_NAME)" -a -q)
 
             # Set the port
             if [ $(echo $IMAGE_NAME) = "ziyo-fe" ]; then
@@ -62,7 +65,7 @@ jobs:
 
             # Run a new container from the new image
             docker run -d \
-              -p $(echo $PORT):$$(echo $PORT) \
+              -p $(echo $PORT):$(echo $PORT) \
               --restart always \
               --name $(echo $IMAGE_NAME) \
               $(echo $REPOSITORY_NAME)/$(echo $IMAGE_NAME):latest

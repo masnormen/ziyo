@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   lint-typecheck:
+    if: github.ref_name != 'main' && github.ref_name != 'dev'
     runs-on: ubuntu-latest
     permissions:
       contents: "read"

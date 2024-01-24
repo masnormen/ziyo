@@ -13,15 +13,12 @@ RUN apk add --no-cache dumb-init
 ENV NODE_ENV production
 ENV PORT 3000
 WORKDIR /usr/src/app
-COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=deps /usr/src/app/package.json ./package.json
-COPY public ./public
-COPY .next ./.next
-RUN chown -R node:node .
+COPY --from=deps --chown=node:node /usr/src/app/node_modules ./node_modules
+COPY --from=deps --chown=node:node /usr/src/app/package.json ./package.json
+COPY --chown=node:node public ./public
+COPY --chown=node:node .next ./.next
 USER node
 EXPOSE 3000
-# COPY --chown=node:node ./tools/scripts/entrypoints/api.sh /usr/local/bin/docker-entrypoint.sh
-# ENTRYPOINT [ "docker-entrypoint.sh" ]
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
 CMD ["dumb-init", "node_modules/.bin/next", "start"]
