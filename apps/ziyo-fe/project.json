@@ -15,7 +15,9 @@
         "development": {
           "outputPath": "apps/ziyo-fe"
         },
-        "production": {}
+        "production": {
+          "generateLockfile": true
+        }
       }
     },
     "serve": {
@@ -52,6 +54,26 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
+    },
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": ["build"],
+      "defaultConfiguration": "production",
+      "options": {
+        "engine": "docker",
+        "context": "dist/apps/ziyo-fe",
+        "file": "apps/ziyo-fe/Dockerfile"
+      },
+      "configurations": {
+        "local": {
+          "tags": ["ziyo-fe-dev:latest"],
+          "push": false
+        },
+        "production": {
+          "tags": ["ziyo-fe-production:latest"],
+          "push": false
+        }
+      }
     }
   },
   "tags": []

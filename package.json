@@ -36,6 +36,7 @@
     "zod_utilz": "^0.7.3"
   },
   "devDependencies": {
+    "@nx-tools/nx-container": "^5.1.0",
     "@nx/esbuild": "17.2.6",
     "@nx/eslint": "17.2.6",
     "@nx/eslint-plugin": "17.2.6",
@@ -79,7 +80,7 @@
     "nx": "17.2.6",
     "nx-ignore": "^17.2.2",
     "postcss": "8.4.32",
-    "prettier": "^3.1.1",
+    "prettier": "^3.2.3",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "3.4.0",
     "ts-jest": "^29.1.0",
