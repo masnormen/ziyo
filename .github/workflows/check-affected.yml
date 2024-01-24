@@ -1,0 +1,61 @@
+name: Check Affected
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  check-affected:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      actions: "read"
+      pull-requests: "read"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.0'
+          cache: 'pnpm'
+
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref || github.ref_name }}
+
+      - name: ziyo-fe check
+        id: check-ziyo-fe
+        run: |
+          OUTPUT=$(pnpm nx show projects --affected)
+          echo "$OUTPUT" | grep -q "ziyo-fe"
+          echo ::set-output name=status::$?
+
+      - name: ziyo-be check
+        id: check-ziyo-be
+        run: |
+          OUTPUT=$(pnpm nx show projects --affected)
+          echo "$OUTPUT" | grep -q "ziyo-be"
+          echo ::set-output name=status::$?
+
+      - name: Invoke ziyo-fe build
+        if: steps.check-ziyo-fe.outputs.status == '0'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: build-deploy.yml
+          inputs: '{ "image-name": "ziyo-fe" }'
+
+      - name: Invoke ziyo-be build
+        if: steps.check-ziyo-be.outputs.status == '0'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: build-deploy.yml
+          inputs: '{ "image-name": "ziyo-be" }'

@@ -66,12 +66,12 @@
       },
       "configurations": {
         "local": {
-          "tags": ["ziyo-fe-dev:latest"],
+          "tags": ["masnormen/ziyo-fe-dev:latest"],
           "push": false
         },
         "production": {
-          "tags": ["ziyo-fe-production:latest"],
-          "push": false
+          "tags": ["masnormen/ziyo-fe:latest"],
+          "push": true
         }
       }
     }

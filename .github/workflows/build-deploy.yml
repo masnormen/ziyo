@@ -1,0 +1,57 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      image-name:
+        description: "Image name"
+        required: true
+        type: choice
+        options:
+        - ziyo-fe
+        - ziyo-be
+
+env:
+  REPOSITORY_NAME: "masnormen"
+  IMAGE_NAME: ${{ github.event.inputs.image-name }}
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Build and push container image
+        run: pnpm exec nx container ${{ env.IMAGE_NAME }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    steps:
+      - name: Deploy to Droplet
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          envs: IMAGE_NAME,REPOSITORY_NAME
+          script: |
+            # Stop and remove old container
+            docker stop $(echo $IMAGE_NAME)
+            docker rm $(echo $IMAGE_NAME)
+
+            # Set the port
+            if [ $(echo $IMAGE_NAME) = "ziyo-fe" ]; then
+              PORT=3000
+            else
+              PORT=4200
+            fi
+
+            # Run a new container from the new image
+            docker run -d \
+              -p $(echo $PORT):$$(echo $PORT) \
+              --restart always \
+              --name $(echo $IMAGE_NAME) \
+              $(echo $REPOSITORY_NAME)/$(echo $IMAGE_NAME):latest

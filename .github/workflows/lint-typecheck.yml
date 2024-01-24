@@ -1,0 +1,58 @@
+name: Lint & Typecheck
+on:
+  push:
+    branches:
+      - '**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-typecheck:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      actions: "read"
+      pull-requests: "read"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Mark your git directory as safe (self-hosted runner only)
+      # - name: Set Directory as Safe
+      #   run: |
+      #     git config --system --add safe.directory "$GITHUB_WORKSPACE"
+      #   shell: bash
+
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: ${{ github.event.pull_request.base.ref || github.ref_name }}
+
+      # This line is needed for nx affected to work when CI is running on a PR
+      # Run only if current branch is not dev or master
+      # Disable exit on error because not too needed
+      - if: github.ref_name != 'master' && github.ref_name != 'dev'
+        run: |
+          set +x
+          git branch --track master origin/master
+          git branch --track dev origin/dev
+        continue-on-error: true
+
+      - run: pnpm nx affected -t lint,typecheck --parallel=3 --configuration=ci
