@@ -1,19 +1,23 @@
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
+import { Resvg } from '@resvg/resvg-js';
 import { isHan } from '@scriptin/is-han';
 import { ArrayWithTotalCount, Kanji, KanjiList } from '@ziyo/types';
+import { readFileSync } from 'fs';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
 import path from 'path';
+import satori from 'satori';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
 import { isHiragana, isKana, isKatakana, toRomaji } from 'wanakana';
 import { z } from 'zod';
 
+import { IndexOpenGraphImage, KanjiOpenGraphImage } from './og-images';
 import isHangeul from './utils/isHangeul';
 import { err, ok, okPagination } from './utils/response';
 
@@ -45,6 +49,49 @@ const app = new Hono()
     c.header('Cache-Control', 'public, max-age=3600');
     await next();
   })
+
+  .get(
+    '/og-image.png',
+    zValidator(
+      'query',
+      z.object({
+        character: z.string().trim().optional(),
+      }),
+    ),
+    async (c) => {
+      const query = c.req.valid('query');
+
+      const OpenGraphImage = query.character
+        ? KanjiOpenGraphImage({
+            kanji: query.character,
+          })
+        : IndexOpenGraphImage();
+
+      const svg = await satori(OpenGraphImage, {
+        width: 1200,
+        height: 630,
+        fonts: [
+          {
+            name: 'Noto Sans JP',
+            data: readFileSync(`${__dirname}/assets/NotoSansJP-subset.ttf`),
+            weight: 700,
+            style: 'normal',
+          },
+        ],
+      });
+
+      const resvg = new Resvg(svg, {
+        background: 'rgba(238, 235, 230, .9)',
+      });
+      const pngData = resvg.render();
+      const pngBuffer = pngData.asPng();
+
+      return c.newResponse(pngBuffer, 200, {
+        'Content-Type': 'image/png',
+        'Cache-Control': 'public, max-age=86400',
+      });
+    },
+  )
 
   .get(
     '/kanji/one',
@@ -254,7 +301,7 @@ export type AppType = typeof app;
 serve(
   {
     fetch: app.fetch,
-    port: Number(process.env.PORT || 3000),
+    port: Number(process.env.PORT || 4200),
   },
   (info) => {
     console.log(`✅ Listening on http://localhost:${info.port}`);
