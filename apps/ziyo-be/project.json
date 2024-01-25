@@ -80,12 +80,12 @@
       },
       "configurations": {
         "local": {
-          "tags": ["ziyo-be-dev:latest"],
+          "tags": ["masnormen/ziyo-be-dev:latest"],
           "push": false
         },
         "production": {
-          "tags": ["ziyo-be-production:latest"],
-          "push": false
+          "tags": ["masnormen/ziyo-be:latest"],
+          "push": true
         }
       }
     }
