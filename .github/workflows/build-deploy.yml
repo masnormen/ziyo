@@ -48,6 +48,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
+    environment:
+      name: ${{ github.event.inputs.image-name }}-production
+      url: https://ziyo.nourman.com
     steps:
       - name: Deploy to Droplet
         uses: appleboy/ssh-action@v1.0.3
