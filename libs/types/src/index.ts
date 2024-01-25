@@ -31,11 +31,12 @@ export type KanjiList = z.infer<typeof KanjiList>;
 export const ArrayWithTotalCount = <T extends z.ZodArray<z.AnyZodObject>>(
   type: T,
 ) => {
-  type ObjectType = T extends z.ZodArray<infer A extends z.AnyZodObject>
-    ? A extends z.ZodObject<infer B>
-      ? B
-      : never
-    : never;
+  type ObjectType =
+    T extends z.ZodArray<infer A extends z.AnyZodObject>
+      ? A extends z.ZodObject<infer B>
+        ? B
+        : never
+      : never;
 
   const newType = type._def.type.merge(
     z.object({
