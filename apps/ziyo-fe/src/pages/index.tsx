@@ -21,8 +21,13 @@ export default function Index() {
     <>
       <Head>
         <title>{metadata.title}</title>
+        <link rel="canonical" href="https://ziyo.nourman.com" />
+        <link rel="icon" href="https://fav.farm/ジ" />
+
         <meta name="description" content={metadata.description} />
+        <meta name="robots" content="index, follow" />
         <meta property="og:title" content={metadata.title} />
+        <meta property="og:site_name" content={metadata.title} />
         <meta property="og:description" content={metadata.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ziyo.nourman.com" />
@@ -30,13 +35,11 @@ export default function Index() {
           property="og:image"
           content="https://ziyo.nourman.com/api/og-image.png"
         />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={metadata.title} />
+        <meta property="og:image:type" content="image/png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.description} />
-        <meta
-          name="twitter:image"
-          content="https://ziyo.nourman.com/api/og-image.png"
-        />
       </Head>
       <div className="mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-12">
         <IndexHeader />
