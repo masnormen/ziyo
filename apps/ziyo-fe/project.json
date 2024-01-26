@@ -30,11 +30,13 @@
       "configurations": {
         "development": {
           "buildTarget": "ziyo-fe:build:development",
-          "dev": true
+          "dev": true,
+          "port": 3000
         },
         "production": {
           "buildTarget": "ziyo-fe:build:production",
-          "dev": false
+          "dev": false,
+          "port": 3000
         }
       }
     },

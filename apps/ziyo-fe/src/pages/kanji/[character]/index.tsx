@@ -1,21 +1,21 @@
 import { isHan } from '@scriptin/is-han';
 import { TatoebaResponse } from '@ziyo/types';
 import {
-  Button,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@ziyo/ui';
-import { HomeIcon } from 'lucide-react';
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from 'next';
-import Link from 'next/link';
+import { NextSeo } from 'next-seo';
 
 import { AudioPlay } from '../../../components/AudioPlay';
+import { Branding } from '../../../components/Branding';
 import { Chip } from '../../../components/Chip';
+import { Search } from '../../../components/Search';
 import { api } from '../../../lib/api';
 
 const KanjiLink = ({
@@ -90,211 +90,225 @@ export default function KanjiPage({
   });
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-[600px] flex-col items-center gap-8 py-32">
-      <Button className="mb-8 flex gap-2" asChild>
-        <Link href="/">
-          <HomeIcon size={16} /> Ziyo
-        </Link>
-      </Button>
+    <>
+      <NextSeo
+        title={`${kanji.literal} · Ziyo (ジヨ)`}
+        canonical={`https://ziyo.nourman.com/kanji/${kanji.literal}`}
+        openGraph={{
+          url: `https://ziyo.nourman.com/kanji/${kanji.literal}`,
+        }}
+      />
 
-      <h1 lang="ja" className="mb-4 text-8xl font-bold">
-        {kanji.literal}
-      </h1>
+      <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-8 py-16 md:justify-start">
+        <Branding small />
+        <Search floating />
 
-      {/* Variants */}
-      <section className="mb-4 flex flex-row items-center justify-center gap-4 font-medium">
-        {kanji.literal_simplified && (
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger>
-                <Chip
-                  lang="zh-Hans"
-                  className="bg-red-100 text-2xl font-normal"
-                >
-                  {kanji.literal_simplified}
-                </Chip>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Simplified Chinese</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
+        <h1
+          lang="ja"
+          className="mb-8 mt-16 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
+        >
+          {kanji.literal}
+        </h1>
 
-        {kanji.literal_kyujitai && (
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger>
-                <Chip
-                  lang="zh-Hant"
-                  className="bg-slate-200 text-2xl font-normal"
-                >
-                  {kanji.literal_kyujitai}
-                </Chip>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                Traditional Chinese / Kyūjitai
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
+        {/* Variants */}
+        <section className="mb-4 flex flex-row items-center justify-center gap-4 font-medium">
+          {kanji.literal_simplified && (
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger>
+                  <Chip
+                    lang="zh-Hans"
+                    className="bg-red-100 text-2xl font-normal"
+                  >
+                    {kanji.literal_simplified}
+                  </Chip>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  Simplified Chinese
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
-        {kanji.literal_kyujitai && (
-          <TooltipProvider>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger>
-                <Chip lang="ko" className="bg-blue-100 text-2xl font-normal">
-                  {kanji.literal_kyujitai}
-                </Chip>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Korean / Hanja</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
-      </section>
+          {kanji.literal_kyujitai && (
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger>
+                  <Chip
+                    lang="zh-Hant"
+                    className="bg-slate-200 text-2xl font-normal"
+                  >
+                    {kanji.literal_kyujitai}
+                  </Chip>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  Traditional Chinese / Kyūjitai
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
 
-      {/* Reading-Meanings */}
-      <section className="flex w-full flex-col gap-3">
-        {kanji.reading_ja_onyomi_katakana.length > 0 && (
-          <div className="flex flex-row gap-4">
-            <span className="font-bold">Onyomi</span>
-            <div className="inline-flex flex-row gap-1">
-              {kanji.reading_ja_onyomi_katakana.map((onyomi, onyomiIdx) => (
-                <TooltipProvider key={onyomi}>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
-                      <Chip
-                        lang="ja"
-                        className="bg-red-200 text-gray-900 hover:bg-red-700 hover:text-gray-100"
-                      >
-                        {onyomi}
-                      </Chip>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <AudioPlay
-                        voice="jp_001"
-                        text={onyomi}
-                        latin={kanji.reading_ja_onyomi_latin[onyomiIdx]}
-                        lang="ja"
-                      />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
+          {kanji.literal_kyujitai && (
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger>
+                  <Chip lang="ko" className="bg-blue-100 text-2xl font-normal">
+                    {kanji.literal_kyujitai}
+                  </Chip>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Korean / Hanja</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </section>
+
+        {/* Reading-Meanings */}
+        <section className="flex w-full flex-col gap-3">
+          {kanji.reading_ja_onyomi_katakana.length > 0 && (
+            <div className="flex flex-row gap-4">
+              <span className="font-bold">Onyomi</span>
+              <div className="inline-flex flex-row gap-1">
+                {kanji.reading_ja_onyomi_katakana.map((onyomi, onyomiIdx) => (
+                  <TooltipProvider key={onyomi}>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger>
+                        <Chip
+                          lang="ja"
+                          className="bg-red-200 text-gray-900 hover:bg-red-700 hover:text-gray-100"
+                        >
+                          {onyomi}
+                        </Chip>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <AudioPlay
+                          voice="jp_001"
+                          text={onyomi}
+                          latin={kanji.reading_ja_onyomi_latin[onyomiIdx]}
+                          lang="ja"
+                        />
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {kanji.reading_ja_kunyomi_hiragana.length > 0 && (
-          <div className="flex flex-row gap-4">
-            <span className="font-bold">Kunyomi</span>
-            <div className="inline-flex flex-row gap-1">
-              {kanji.reading_ja_kunyomi_hiragana.map((kunyomi, kunyomiIdx) => (
-                <TooltipProvider key={kunyomi}>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
-                      <Chip
-                        lang="ja"
-                        className="bg-amber-200 text-gray-900 hover:bg-amber-600 hover:text-gray-100"
-                      >
-                        {kunyomi}
-                      </Chip>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <AudioPlay
-                        voice="jp_001"
-                        text={kunyomi.replace('.', '')}
-                        latin={kanji.reading_ja_kunyomi_latin[
-                          kunyomiIdx
-                        ]?.replace('.', '')}
-                        other={kunyomi.replace(/^[^.]*\./, kanji.literal)}
-                        lang="ja"
-                      />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
+          {kanji.reading_ja_kunyomi_hiragana.length > 0 && (
+            <div className="flex flex-row gap-4">
+              <span className="font-bold">Kunyomi</span>
+              <div className="inline-flex flex-row gap-1">
+                {kanji.reading_ja_kunyomi_hiragana.map(
+                  (kunyomi, kunyomiIdx) => (
+                    <TooltipProvider key={kunyomi}>
+                      <Tooltip delayDuration={100}>
+                        <TooltipTrigger>
+                          <Chip
+                            lang="ja"
+                            className="bg-amber-200 text-gray-900 hover:bg-amber-600 hover:text-gray-100"
+                          >
+                            {kunyomi}
+                          </Chip>
+                        </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                          <AudioPlay
+                            voice="jp_001"
+                            text={kunyomi.replace('.', '')}
+                            latin={kanji.reading_ja_kunyomi_latin[
+                              kunyomiIdx
+                            ]?.replace('.', '')}
+                            other={kunyomi.replace(/^[^.]*\./, kanji.literal)}
+                            lang="ja"
+                          />
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  ),
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {kanji.reading_zh_pinyin_diacritics.length > 0 && (
-          <div className="flex flex-row gap-4">
-            <span className="font-bold">Chinese</span>
-            <div className="inline-flex flex-row gap-1">
-              {kanji.reading_zh_pinyin_diacritics.map((pinyin, pinyinIdx) => (
-                <TooltipProvider key={pinyin}>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
-                      <Chip
-                        lang="zh"
-                        className="bg-purple-200 text-gray-900 hover:bg-purple-600 hover:text-gray-100"
-                      >
-                        {pinyin}
-                      </Chip>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <AudioPlay
-                        voice={null}
-                        text={pinyin}
-                        latin={pinyin}
-                        other={kanji.reading_zh_pinyin_numbered[pinyinIdx]}
-                        lang="zh"
-                      />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
+          {kanji.reading_zh_pinyin_diacritics.length > 0 && (
+            <div className="flex flex-row gap-4">
+              <span className="font-bold">Chinese</span>
+              <div className="inline-flex flex-row gap-1">
+                {kanji.reading_zh_pinyin_diacritics.map((pinyin, pinyinIdx) => (
+                  <TooltipProvider key={pinyin}>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger>
+                        <Chip
+                          lang="zh"
+                          className="bg-purple-100 text-gray-900 hover:bg-purple-600 hover:text-gray-100"
+                        >
+                          {pinyin}
+                        </Chip>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <AudioPlay
+                          voice={null}
+                          text={pinyin}
+                          latin={pinyin}
+                          other={kanji.reading_zh_pinyin_numbered[pinyinIdx]}
+                          lang="zh"
+                        />
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {kanji.reading_ko_hangeul.length > 0 && (
-          <div className="flex flex-row gap-4">
-            <span className="font-bold">Korean</span>
-            <div className="inline-flex flex-row gap-1">
-              {kanji.reading_ko_hangeul.map((hangeul, hangeulIdx) => (
-                <TooltipProvider key={hangeul}>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger>
-                      <Chip
-                        lang="ko"
-                        className="bg-blue-200 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
+          {kanji.reading_ko_hangeul.length > 0 && (
+            <div className="flex flex-row gap-4">
+              <span className="font-bold">Korean</span>
+              <div className="inline-flex flex-row gap-1">
+                {kanji.reading_ko_hangeul.map((hangeul, hangeulIdx) => (
+                  <TooltipProvider key={hangeul}>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger>
+                        <Chip
+                          lang="ko"
+                          className="bg-blue-200 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
+                        >
+                          {hangeul}
+                        </Chip>
+                      </TooltipTrigger>
+                      <TooltipContent
+                        side="bottom"
+                        className="flex flex-col items-center justify-center"
                       >
-                        {hangeul}
-                      </Chip>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="bottom"
-                      className="flex flex-col items-center justify-center"
-                    >
-                      <span className="text-xs">*Might not be accurate</span>
-                      <AudioPlay
-                        voice="kr_002"
-                        text={`${hangeul}!`}
-                        latin={kanji.reading_ko_latin[hangeulIdx].replace(
-                          '.',
-                          '',
-                        )}
-                        lang="ko"
-                      />
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ))}
+                        <span className="text-xs">*Might not be accurate</span>
+                        <AudioPlay
+                          voice="kr_002"
+                          text={`${hangeul}!`}
+                          latin={kanji.reading_ko_latin[hangeulIdx].replace(
+                            '.',
+                            '',
+                          )}
+                          lang="ko"
+                        />
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div>{kanji.meanings.join(', ')}</div>
-      </section>
+          <div>{kanji.meanings.join(', ')}</div>
+        </section>
 
-      <section className="flex w-[600px] flex-col gap-4">
-        {sentences.map((s) => (
-          <div key={s.id} lang="ja" className="flex flex-col">
-            <span key={s.id} dangerouslySetInnerHTML={{ __html: s.text }} />
-            <span className="text-sm">{s.translation}</span>
-          </div>
-        ))}
-      </section>
-    </div>
+        <section className="flex w-[600px] flex-col gap-4">
+          {sentences.map((s) => (
+            <div key={s.id} lang="ja" className="flex flex-col">
+              <span key={s.id} dangerouslySetInnerHTML={{ __html: s.text }} />
+              <span className="text-sm">{s.translation}</span>
+            </div>
+          ))}
+        </section>
+      </div>
+    </>
   );
 }

@@ -4,3 +4,10 @@ declare module '*.svg' {
   export const ReactComponent: any;
   export default content;
 }
+
+// Environment variables
+declare namespace NodeJS {
+  interface ProcessEnv {
+    NEXT_PUBLIC_API_URL: string;
+  }
+}

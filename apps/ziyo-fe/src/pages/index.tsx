@@ -1,48 +1,21 @@
-import Head from 'next/head';
+import { NextSeo } from 'next-seo';
 
+import { Branding } from '../components/Branding';
 import { Search } from '../components/Search';
-
-const IndexHeader = () => (
-  <header>
-    <h1 className="text-7xl font-bold">
-      ジヨ <span className="text-2xl">Ziyo</span>
-    </h1>
-  </header>
-);
-
-const metadata = {
-  title: 'Ziyo (ジヨ) · Japanese-focused Kanji dictionary',
-  description:
-    'A simple, no-BS Japanese Kanji dictionary for Japanese learners',
-};
 
 export default function Index() {
   return (
     <>
-      <Head>
-        <title>{metadata.title}</title>
-        <link rel="canonical" href="https://ziyo.nourman.com" />
-        <link rel="icon" href="https://fav.farm/ジ" />
+      <NextSeo
+        title="Ziyo ジヨ · Japanese-focused Kanji dictionary"
+        canonical="https://ziyo.nourman.com"
+        openGraph={{
+          url: 'https://ziyo.nourman.com',
+        }}
+      />
 
-        <meta name="description" content={metadata.description} />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:title" content={metadata.title} />
-        <meta property="og:site_name" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://ziyo.nourman.com" />
-        <meta
-          property="og:image"
-          content="https://ziyo.nourman.com/api/og-image.png"
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={metadata.title} />
-        <meta property="og:image:type" content="image/png" />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Head>
-      <div className="mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-12">
-        <IndexHeader />
+      <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-8 py-16 md:justify-start md:gap-8 md:py-[calc(50vh-125px)]">
+        <Branding />
         <Search />
       </div>
     </>
