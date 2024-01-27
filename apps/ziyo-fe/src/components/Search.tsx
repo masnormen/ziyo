@@ -56,7 +56,6 @@ export function Search({ floating = false }: { floating?: boolean }) {
   const cmdRef = useClickAway<HTMLDivElement>(() => {
     setIsFocused(false);
   });
-  console.log({ isFocused, floating });
 
   return (
     <Command

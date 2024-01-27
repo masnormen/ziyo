@@ -11,6 +11,7 @@ import type {
   InferGetServerSidePropsType,
 } from 'next';
 import { NextSeo } from 'next-seo';
+import { useCallback, useState } from 'react';
 
 import { AudioPlay } from '../../../components/AudioPlay';
 import { Branding } from '../../../components/Branding';
@@ -89,6 +90,19 @@ export default function KanjiPage({
     };
   });
 
+  const [hoveredVariants, setHoveredVariants] = useState<{
+    lang: string;
+    char: string;
+  } | null>(null);
+
+  const createHoveredProps = useCallback(
+    (lang: string, char: string) => ({
+      onMouseEnter: () => setHoveredVariants({ lang, char }),
+      onMouseLeave: () => setHoveredVariants(null),
+    }),
+    [],
+  );
+
   return (
     <>
       <NextSeo
@@ -104,28 +118,27 @@ export default function KanjiPage({
         <Search floating />
 
         <h1
-          lang="ja"
+          lang={hoveredVariants ? hoveredVariants.lang : 'ja'}
           className="mb-8 mt-16 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
         >
-          {kanji.literal}
+          {hoveredVariants ? hoveredVariants.char : kanji.literal}
         </h1>
 
         {/* Variants */}
-        <section className="mb-4 flex flex-row items-center justify-center gap-4 font-medium">
+        <section className="mb-8 flex flex-row items-center justify-center gap-4 font-medium">
           {kanji.literal_simplified && (
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger>
                   <Chip
                     lang="zh-Hans"
-                    className="bg-red-100 text-2xl font-normal"
+                    className="bg-indigo-50 text-2xl font-normal hover:bg-indigo-600 hover:text-gray-100"
+                    {...createHoveredProps('zh-Hans', kanji.literal_simplified)}
                   >
                     {kanji.literal_simplified}
                   </Chip>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  Simplified Chinese
-                </TooltipContent>
+                <TooltipContent>Simplified Chinese</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
@@ -136,14 +149,13 @@ export default function KanjiPage({
                 <TooltipTrigger>
                   <Chip
                     lang="zh-Hant"
-                    className="bg-slate-200 text-2xl font-normal"
+                    className="bg-emerald-50 text-2xl font-normal hover:bg-emerald-700 hover:text-gray-100"
+                    {...createHoveredProps('zh-Hant', kanji.literal_kyujitai)}
                   >
                     {kanji.literal_kyujitai}
                   </Chip>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  Traditional Chinese / Kyūjitai
-                </TooltipContent>
+                <TooltipContent>Traditional Chinese / Kyūjitai</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
@@ -152,11 +164,15 @@ export default function KanjiPage({
             <TooltipProvider>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger>
-                  <Chip lang="ko" className="bg-blue-100 text-2xl font-normal">
+                  <Chip
+                    lang="ko"
+                    className="bg-yellow-50 text-2xl font-normal hover:bg-yellow-600 hover:text-gray-100"
+                    {...createHoveredProps('ko', kanji.literal_kyujitai)}
+                  >
                     {kanji.literal_kyujitai}
                   </Chip>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">Korean / Hanja</TooltipContent>
+                <TooltipContent>Korean / Hanja</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           )}
@@ -166,20 +182,20 @@ export default function KanjiPage({
         <section className="flex w-full flex-col gap-3">
           {kanji.reading_ja_onyomi_katakana.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="font-bold">Onyomi</span>
-              <div className="inline-flex flex-row gap-1">
+              <span className="min-w-20 font-semibold">Onyomi</span>
+              <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ja_onyomi_katakana.map((onyomi, onyomiIdx) => (
                   <TooltipProvider key={onyomi}>
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger>
                         <Chip
                           lang="ja"
-                          className="bg-red-200 text-gray-900 hover:bg-red-700 hover:text-gray-100"
+                          className="bg-rose-100 text-gray-900 hover:bg-rose-700 hover:text-gray-100"
                         >
                           {onyomi}
                         </Chip>
                       </TooltipTrigger>
-                      <TooltipContent side="bottom">
+                      <TooltipContent>
                         <AudioPlay
                           voice="jp_001"
                           text={onyomi}
@@ -196,8 +212,8 @@ export default function KanjiPage({
 
           {kanji.reading_ja_kunyomi_hiragana.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="font-bold">Kunyomi</span>
-              <div className="inline-flex flex-row gap-1">
+              <span className="min-w-20 font-semibold">Kunyomi</span>
+              <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ja_kunyomi_hiragana.map(
                   (kunyomi, kunyomiIdx) => (
                     <TooltipProvider key={kunyomi}>
@@ -205,12 +221,12 @@ export default function KanjiPage({
                         <TooltipTrigger>
                           <Chip
                             lang="ja"
-                            className="bg-amber-200 text-gray-900 hover:bg-amber-600 hover:text-gray-100"
+                            className="bg-kiiro-200 text-gray-900 hover:bg-kiiro-800 hover:text-gray-100"
                           >
                             {kunyomi}
                           </Chip>
                         </TooltipTrigger>
-                        <TooltipContent side="bottom">
+                        <TooltipContent>
                           <AudioPlay
                             voice="jp_001"
                             text={kunyomi.replace('.', '')}
@@ -231,8 +247,8 @@ export default function KanjiPage({
 
           {kanji.reading_zh_pinyin_diacritics.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="font-bold">Chinese</span>
-              <div className="inline-flex flex-row gap-1">
+              <span className="min-w-20 font-semibold">Chinese</span>
+              <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_zh_pinyin_diacritics.map((pinyin, pinyinIdx) => (
                   <TooltipProvider key={pinyin}>
                     <Tooltip delayDuration={100}>
@@ -244,7 +260,7 @@ export default function KanjiPage({
                           {pinyin}
                         </Chip>
                       </TooltipTrigger>
-                      <TooltipContent side="bottom">
+                      <TooltipContent>
                         <AudioPlay
                           voice={null}
                           text={pinyin}
@@ -262,23 +278,20 @@ export default function KanjiPage({
 
           {kanji.reading_ko_hangeul.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="font-bold">Korean</span>
-              <div className="inline-flex flex-row gap-1">
+              <span className="min-w-20 font-semibold">Korean</span>
+              <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ko_hangeul.map((hangeul, hangeulIdx) => (
                   <TooltipProvider key={hangeul}>
                     <Tooltip delayDuration={100}>
                       <TooltipTrigger>
                         <Chip
                           lang="ko"
-                          className="bg-blue-200 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
+                          className="bg-blue-100 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
                         >
                           {hangeul}
                         </Chip>
                       </TooltipTrigger>
-                      <TooltipContent
-                        side="bottom"
-                        className="flex flex-col items-center justify-center"
-                      >
+                      <TooltipContent className="flex flex-col items-center justify-center">
                         <span className="text-xs">*Might not be accurate</span>
                         <AudioPlay
                           voice="kr_002"
@@ -297,10 +310,10 @@ export default function KanjiPage({
             </div>
           )}
 
-          <div>{kanji.meanings.join(', ')}</div>
+          <div className="mt-6">{kanji.meanings.join(', ')}</div>
         </section>
 
-        <section className="flex w-[600px] flex-col gap-4">
+        <section className="mt-6 flex w-full flex-col gap-4">
           {sentences.map((s) => (
             <div key={s.id} lang="ja" className="flex flex-col">
               <span key={s.id} dangerouslySetInnerHTML={{ __html: s.text }} />

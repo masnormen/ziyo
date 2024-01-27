@@ -214,23 +214,23 @@ const app = new Hono()
           ${(() => {
             if (searchMode === 'latin') {
               return sql`
-                reading_ja_onyomi_latin_json.value like '%' || $search || '%'
-                OR reading_ja_kunyomi_latin_json.value like '%' || $search || '%'
-                OR meanings_json.value like '%' || $search || '%'
-                OR reading_ko_latin_json.value like '%' || $search || '%'
-                OR reading_zh_pinyin_numbered_json.value like '%' || $search || '%'
+                reading_ja_onyomi_latin_json.value like $search || '%'
+                OR reading_ja_kunyomi_latin_json.value like $search || '%'
+                OR meanings_json.value like $search || '%'
+                OR reading_ko_latin_json.value like $search || '%'
+                OR reading_zh_pinyin_numbered_json.value like $search || '%'
               `;
             }
             if (searchMode === 'hangeul') {
               return sql`
-                reading_ko_hangeul_json.value like '%' || $search || '%'
+                reading_ko_hangeul_json.value like $search || '%'
               `;
             }
             // Han
             return sql`
-              $search LIKE '%' || literal || '%'
-              OR $search LIKE '%' || literal_kyujitai || '%'
-              OR $search LIKE '%' || literal_simplified || '%'
+              $search LIKE literal || '%'
+              OR $search LIKE literal_kyujitai || '%'
+              OR $search LIKE literal_simplified || '%'
             `;
           })()}
         GROUP BY literal
@@ -243,23 +243,23 @@ const app = new Hono()
             ${(() => {
               if (searchMode === 'latin') {
                 return sql`
-                  WHEN reading_ja_onyomi_latin_json.value LIKE '%' || $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_onyomi_latin_json.value))
-                  WHEN reading_ja_kunyomi_latin_json.value LIKE '%' || $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_kunyomi_latin_json.value))
-                  WHEN meanings_json.value LIKE '%' || $search || '%' THEN (LENGTH($search) * 100 / LENGTH(meanings_json.value)) * 0.5
-                  WHEN reading_ko_latin_json.value LIKE '%' || $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ko_latin_json.value)) * 0.8
-                  WHEN reading_zh_pinyin_numbered_json.value LIKE '%' || $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_zh_pinyin_numbered_json.value)) * 0.7
+                  WHEN reading_ja_onyomi_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_onyomi_latin_json.value))
+                  WHEN reading_ja_kunyomi_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_kunyomi_latin_json.value))
+                  WHEN meanings_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(meanings_json.value)) * 0.5
+                  WHEN reading_ko_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ko_latin_json.value)) * 0.8
+                  WHEN reading_zh_pinyin_numbered_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_zh_pinyin_numbered_json.value)) * 0.7
                 `;
               }
               if (searchMode === 'hangeul') {
                 return sql`
-                  WHEN reading_ko_hangeul_json.value LIKE '%' || $search || '%' THEN 1
+                  WHEN reading_ko_hangeul_json.value LIKE $search || '%' THEN 1
                 `;
               }
               // Han
               return sql`
-                WHEN $search LIKE '%' || literal || '%' THEN 1
-                WHEN $search LIKE '%' || literal_kyujitai || '%' THEN 1
-                WHEN $search LIKE '%' || literal_simplified || '%' THEN 1
+                WHEN $search LIKE literal || '%' THEN 1
+                WHEN $search LIKE literal_kyujitai || '%' THEN 1
+                WHEN $search LIKE literal_simplified || '%' THEN 1
               `;
             })()}
           ELSE 50
