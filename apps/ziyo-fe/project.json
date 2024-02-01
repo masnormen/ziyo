@@ -4,8 +4,12 @@
   "sourceRoot": "apps/ziyo-fe",
   "projectType": "application",
   "targets": {
+    "gen-api-types": {
+      "command": "sh {projectRoot}/scripts/gen-api-types.sh"
+    },
     "build": {
       "executor": "@nx/next:build",
+      "dependsOn": ["gen-api-types"],
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
@@ -22,6 +26,7 @@
     },
     "serve": {
       "executor": "@nx/next:server",
+      "dependsOn": ["gen-api-types"],
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "ziyo-fe:build",
@@ -42,6 +47,7 @@
     },
     "export": {
       "executor": "@nx/next:export",
+      "dependsOn": ["gen-api-types"],
       "options": {
         "buildTarget": "ziyo-fe:build:production"
       }
@@ -54,6 +60,7 @@
       }
     },
     "lint": {
+      "dependsOn": ["gen-api-types"],
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },

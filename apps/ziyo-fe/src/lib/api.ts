@@ -1,7 +1,4 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - ignore
-import type { AppType } from 'apps/ziyo-be/src';
+import type { BackendType } from 'BackendType';
 import { hc } from 'hono/client';
 
-export const { api } = hc<AppType>(process.env.NEXT_PUBLIC_API_URL!);
+export const { api } = hc<BackendType>(process.env.NEXT_PUBLIC_API_URL!);

@@ -62,6 +62,9 @@ dependencies:
   next:
     specifier: 13.5.5
     version: 13.5.5(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
+  next-seo:
+    specifier: ^6.4.0
+    version: 6.4.0(next@13.5.5)(react-dom@18.2.0)(react@18.2.0)
   nextjs-progressbar:
     specifier: ^0.0.16
     version: 0.0.16(next@13.5.5)(react@18.2.0)
@@ -238,9 +241,6 @@ devDependencies:
   jest-environment-node:
     specifier: ^29.4.1
     version: 29.7.0
-  next-seo:
-    specifier: ^6.4.0
-    version: 6.4.0(next@13.5.5)(react-dom@18.2.0)(react@18.2.0)
   nx:
     specifier: 17.2.6
     version: 17.2.6(@swc-node/register@1.6.8)(@swc/core@1.3.101)
@@ -9154,7 +9154,7 @@ packages:
       next: 13.5.5(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: true
+    dev: false
 
   /next@13.5.5(@babel/core@7.23.6)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-LddFJjpfrtrMMw8Q9VLhIURuSidiCNcMQjRqcPtrKd+Fx07MsG7hYndJb/f2d3I+mTbTotsTJfCnn0eZ/YPk8w==}

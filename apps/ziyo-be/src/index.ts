@@ -1,3 +1,5 @@
+///<amd-module name='BackendType'/>
+
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
 import { Resvg } from '@resvg/resvg-js';
@@ -20,10 +22,6 @@ import { z } from 'zod';
 import { IndexOpenGraphImage, KanjiOpenGraphImage } from './og-images';
 import isHangeul from './utils/isHangeul';
 import { err, ok, okPagination } from './utils/response';
-
-export const config = {
-  runtime: 'nodejs',
-};
 
 const sql = String.raw;
 
@@ -296,8 +294,6 @@ const app = new Hono()
     return c.json(err(new Error('Not found')));
   });
 
-export type AppType = typeof app;
-
 serve(
   {
     fetch: app.fetch,
@@ -307,3 +303,5 @@ serve(
     console.log(`✅ Listening on http://localhost:${info.port}`);
   },
 );
+
+export type BackendType = typeof app;
