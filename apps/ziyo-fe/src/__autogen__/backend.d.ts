@@ -1031,8 +1031,12 @@ declare module "libs/types/src/index" {
 }
 declare module "apps/ziyo-be/src/og-images" {
     export const IndexOpenGraphImage: () => import("react/jsx-runtime").JSX.Element;
-    export const KanjiOpenGraphImage: ({ kanji }: {
-        kanji: string;
+    /**
+     * `charData` is a string of the form: `${kanji}::${onyomi}::${kunyomi}::${meanings}`
+     * where each field is separated by `::` and each field is a string of comma-separated values
+     */
+    export const KanjiOpenGraphImage: ({ charData, }: {
+        charData: `${string}::${string}::${string}::${string}`;
     }) => import("react/jsx-runtime").JSX.Element;
 }
 declare module "apps/ziyo-be/src/utils/isHangeul" {
@@ -1072,7 +1076,7 @@ declare module "~api-types" {
     import { Hono } from 'hono';
     const app: Hono<import("hono").Env, import("hono").ToSchema<"get", "/api/*", unknown, any> & import("hono").ToSchema<"get", "/api/og-image.png", {
         query: {
-            character?: string | undefined;
+            charData?: string | undefined;
         };
     }, {}> & import("hono").ToSchema<"get", "/api/kanji/one", {
         query: {

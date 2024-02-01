@@ -5,7 +5,7 @@ import { zValidator } from '@hono/zod-validator';
 import { Resvg } from '@resvg/resvg-js';
 import { isHan } from '@scriptin/is-han';
 import { ArrayWithTotalCount, Kanji, KanjiList } from '@ziyo/types';
-import { readFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
@@ -50,18 +50,51 @@ const app = new Hono()
 
   .get(
     '/og-image.png',
+    /**
+     * `charData` is a string of the form: `${kanji}::${onyomi}::${kunyomi}::${pinyin}::${korean}::${meanings}`
+     * where each field is separated by `::` and each field is a string of comma-separated values
+     */
     zValidator(
       'query',
       z.object({
-        character: z.string().trim().optional(),
+        charData: z.string().optional(),
       }),
     ),
     async (c) => {
       const query = c.req.valid('query');
 
-      const OpenGraphImage = query.character
+      const CharDataSchema =
+        z.custom<`${string}::${string}::${string}::${string}`>((value) => {
+          return typeof value === 'string' && /^([^:]+::){3}[^:]+$/.test(value);
+        }, 'charData must be a string of the form: `${kanji}::${onyomi}::${kunyomi}::${meanings}`');
+
+      const parsedCharData = query.charData
+        ? CharDataSchema.parse(
+            Buffer.from(query.charData, 'base64').toString('utf-8'),
+          )
+        : null;
+
+      const imageHash = parsedCharData
+        ? parsedCharData.split('::')[0]
+        : 'index';
+
+      const isFileExists = existsSync(
+        path.join(__dirname, `./assets/images/${imageHash}.png`),
+      );
+
+      if (isFileExists) {
+        const image = readFileSync(
+          path.join(__dirname, `./assets/images/${imageHash}.png`),
+        );
+        return c.newResponse(image, 200, {
+          'Content-Type': 'image/png',
+          'Cache-Control': 'public, max-age=86400',
+        });
+      }
+
+      const OpenGraphImage = parsedCharData
         ? KanjiOpenGraphImage({
-            kanji: query.character,
+            charData: parsedCharData,
           })
         : IndexOpenGraphImage();
 
@@ -71,7 +104,19 @@ const app = new Hono()
         fonts: [
           {
             name: 'Noto Sans JP',
-            data: readFileSync(`${__dirname}/assets/NotoSansJP-subset.ttf`),
+            data: readFileSync(`${__dirname}/assets/NotoSansJP-Bold.ttf`),
+            weight: 700,
+            style: 'normal',
+          },
+          {
+            name: 'Sora',
+            data: readFileSync(`${__dirname}/assets/Sora-Regular.ttf`),
+            weight: 400,
+            style: 'normal',
+          },
+          {
+            name: 'Sora',
+            data: readFileSync(`${__dirname}/assets/Sora-Bold.ttf`),
             weight: 700,
             style: 'normal',
           },
@@ -81,8 +126,25 @@ const app = new Hono()
       const resvg = new Resvg(svg, {
         background: 'rgba(238, 235, 230, .9)',
       });
-      const pngData = resvg.render();
-      const pngBuffer = pngData.asPng();
+      const pngBuffer = resvg.render().asPng();
+
+      // Save to filesystem
+      const base64Image = btoa(
+        pngBuffer.reduce((data, byte) => data + String.fromCharCode(byte), ''),
+      );
+
+      try {
+        mkdirSync(path.join(__dirname, `./assets/images`), { recursive: true });
+        writeFileSync(
+          path.join(__dirname, `./assets/images/${imageHash}.png`),
+          base64Image,
+          {
+            encoding: 'base64',
+          },
+        );
+      } catch (e) {
+        console.error('Failed to save image!', e);
+      }
 
       return c.newResponse(pngBuffer, 200, {
         'Content-Type': 'image/png',

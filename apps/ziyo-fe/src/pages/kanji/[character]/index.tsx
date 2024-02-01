@@ -113,10 +113,18 @@ export default function KanjiPage({
   return (
     <>
       <NextSeo
-        title={`${kanji.literal} · Ziyo (ジヨ)`}
+        title={`Kanji: ${kanji.literal} · Ziyo ジヨ`}
         canonical={`https://ziyo.nourman.com/kanji/${kanji.literal}`}
         openGraph={{
           url: `https://ziyo.nourman.com/kanji/${kanji.literal}`,
+          images: [
+            {
+              url: `${process.env.NEXT_PUBLIC_API_URL}/api/og-image.png?charData=${encodeURIComponent(Buffer.from(`${kanji.literal}::${kanji.reading_ja_onyomi_katakana.join(',')}::${kanji.reading_ja_kunyomi_hiragana.join(',')}::${kanji.meanings.join(',')}`).toString('base64'))}`,
+              width: 1200,
+              height: 630,
+              alt: `${kanji.literal} · Ziyo ジヨ`,
+            },
+          ],
         }}
       />
 
