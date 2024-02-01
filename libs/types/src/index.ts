@@ -48,14 +48,6 @@ export const ArrayWithTotalCount = <T extends z.ZodArray<z.AnyZodObject>>(
   >;
 };
 
-// export type ArrayWithTotalCount<
-//   T extends z.ZodArray<A>,
-//   A extends z.ZodObject<{
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     [x: string]: any;
-//   }>,
-// > = typeof;
-
 export const TatoebaResponse = z.object({
   paging: z.object({
     Sentences: z.object({

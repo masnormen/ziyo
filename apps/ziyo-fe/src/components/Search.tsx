@@ -8,6 +8,7 @@ import {
 } from '@ziyo/ui';
 import { cn } from '@ziyo/ui/utils';
 import { useAtom } from 'jotai';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +17,7 @@ import { searchAtom, valueAtom } from '../atoms';
 import { Chip } from '../components/Chip';
 import { useGetKanjiList } from '../hooks/query/useGetKanjiList';
 
-export function Search() {
+function Search() {
   const router = useRouter();
 
   const [value, setValue] = useAtom(valueAtom);
@@ -210,3 +211,9 @@ export function Search() {
     </Command>
   );
 }
+
+const DynamicSearch = dynamic(() => Promise.resolve(Search), {
+  ssr: false,
+});
+
+export { DynamicSearch as Search };

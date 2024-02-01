@@ -10,7 +10,7 @@ import type {
   InferGetServerSidePropsType,
 } from 'next';
 import { NextSeo } from 'next-seo';
-import { Fragment, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Branding } from '../../../components/Branding';
 import { Chip } from '../../../components/Chip';

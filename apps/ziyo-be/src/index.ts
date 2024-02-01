@@ -1,4 +1,4 @@
-///<amd-module name='BackendType'/>
+///<amd-module name='~api-types'/>
 
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';

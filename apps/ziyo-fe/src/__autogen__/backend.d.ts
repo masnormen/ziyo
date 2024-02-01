@@ -32,7 +32,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_zh_pinyin_diacritics: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -55,7 +55,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ko_hangeul: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -78,7 +78,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ko_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -101,7 +101,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_onyomi_katakana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -124,7 +124,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_onyomi_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -147,7 +147,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_kunyomi_hiragana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -170,7 +170,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_kunyomi_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -193,7 +193,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_nanori_hiragana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -216,7 +216,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_nanori_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -239,7 +239,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         meanings: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -262,47 +262,47 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
     }, "strip", z.ZodTypeAny, {
-        literal?: string;
-        literal_kyujitai?: string;
-        literal_simplified?: string;
-        frequency?: number;
-        strokeCounts?: number;
-        grade?: number;
-        jlpt?: number;
-        radical?: number;
-        reading_zh_pinyin_numbered?: string[];
-        reading_zh_pinyin_diacritics?: string[];
-        reading_ko_hangeul?: string[];
-        reading_ko_latin?: string[];
-        reading_ja_onyomi_katakana?: string[];
-        reading_ja_onyomi_latin?: string[];
-        reading_ja_kunyomi_hiragana?: string[];
-        reading_ja_kunyomi_latin?: string[];
-        reading_ja_nanori_hiragana?: string[];
-        reading_ja_nanori_latin?: string[];
-        meanings?: string[];
+        literal: string;
+        literal_kyujitai: string | null;
+        literal_simplified: string | null;
+        frequency: number | null;
+        strokeCounts: number;
+        grade: number | null;
+        jlpt: number | null;
+        radical: number | null;
+        reading_zh_pinyin_numbered: string[];
+        reading_zh_pinyin_diacritics: string[];
+        reading_ko_hangeul: string[];
+        reading_ko_latin: string[];
+        reading_ja_onyomi_katakana: string[];
+        reading_ja_onyomi_latin: string[];
+        reading_ja_kunyomi_hiragana: string[];
+        reading_ja_kunyomi_latin: string[];
+        reading_ja_nanori_hiragana: string[];
+        reading_ja_nanori_latin: string[];
+        meanings: string[];
     }, {
-        literal?: string;
-        literal_kyujitai?: string;
-        literal_simplified?: string;
-        frequency?: number;
-        strokeCounts?: number;
-        grade?: number;
-        jlpt?: number;
-        radical?: number;
-        reading_zh_pinyin_numbered?: string;
-        reading_zh_pinyin_diacritics?: string;
-        reading_ko_hangeul?: string;
-        reading_ko_latin?: string;
-        reading_ja_onyomi_katakana?: string;
-        reading_ja_onyomi_latin?: string;
-        reading_ja_kunyomi_hiragana?: string;
-        reading_ja_kunyomi_latin?: string;
-        reading_ja_nanori_hiragana?: string;
-        reading_ja_nanori_latin?: string;
-        meanings?: string;
+        literal: string;
+        literal_kyujitai: string | null;
+        literal_simplified: string | null;
+        frequency: number | null;
+        strokeCounts: number;
+        grade: number | null;
+        jlpt: number | null;
+        radical: number | null;
+        reading_zh_pinyin_numbered: string;
+        reading_zh_pinyin_diacritics: string;
+        reading_ko_hangeul: string;
+        reading_ko_latin: string;
+        reading_ja_onyomi_katakana: string;
+        reading_ja_onyomi_latin: string;
+        reading_ja_kunyomi_hiragana: string;
+        reading_ja_kunyomi_latin: string;
+        reading_ja_nanori_hiragana: string;
+        reading_ja_nanori_latin: string;
+        meanings: string;
     }>;
     export type Kanji = z.infer<typeof Kanji>;
     export const KanjiList: z.ZodArray<z.ZodObject<{
@@ -336,7 +336,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_zh_pinyin_diacritics: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -359,7 +359,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ko_hangeul: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -382,7 +382,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ko_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -405,7 +405,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_onyomi_katakana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -428,7 +428,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_onyomi_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -451,7 +451,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_kunyomi_hiragana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -474,7 +474,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_kunyomi_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -497,7 +497,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_nanori_hiragana: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -520,7 +520,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         reading_ja_nanori_latin: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -543,7 +543,7 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
         meanings: z.ZodPipeline<z.ZodEffects<z.ZodString, string | number | boolean | {
             [key: string]: any;
         } | (string | number | boolean | {
@@ -566,47 +566,47 @@ declare module "libs/types/src/index" {
             [key: string]: any;
         } | (string | number | boolean | any[] | {
             [key: string]: any;
-        })[])[])[])[])[])[])[])[])[])[], string>, z.ZodArray<z.ZodString, "many">>;
+        } | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null)[] | null, string>, z.ZodArray<z.ZodString, "many">>;
     }, "strip", z.ZodTypeAny, {
-        literal?: string;
-        literal_kyujitai?: string;
-        literal_simplified?: string;
-        frequency?: number;
-        strokeCounts?: number;
-        grade?: number;
-        jlpt?: number;
-        radical?: number;
-        reading_zh_pinyin_numbered?: string[];
-        reading_zh_pinyin_diacritics?: string[];
-        reading_ko_hangeul?: string[];
-        reading_ko_latin?: string[];
-        reading_ja_onyomi_katakana?: string[];
-        reading_ja_onyomi_latin?: string[];
-        reading_ja_kunyomi_hiragana?: string[];
-        reading_ja_kunyomi_latin?: string[];
-        reading_ja_nanori_hiragana?: string[];
-        reading_ja_nanori_latin?: string[];
-        meanings?: string[];
+        literal: string;
+        literal_kyujitai: string | null;
+        literal_simplified: string | null;
+        frequency: number | null;
+        strokeCounts: number;
+        grade: number | null;
+        jlpt: number | null;
+        radical: number | null;
+        reading_zh_pinyin_numbered: string[];
+        reading_zh_pinyin_diacritics: string[];
+        reading_ko_hangeul: string[];
+        reading_ko_latin: string[];
+        reading_ja_onyomi_katakana: string[];
+        reading_ja_onyomi_latin: string[];
+        reading_ja_kunyomi_hiragana: string[];
+        reading_ja_kunyomi_latin: string[];
+        reading_ja_nanori_hiragana: string[];
+        reading_ja_nanori_latin: string[];
+        meanings: string[];
     }, {
-        literal?: string;
-        literal_kyujitai?: string;
-        literal_simplified?: string;
-        frequency?: number;
-        strokeCounts?: number;
-        grade?: number;
-        jlpt?: number;
-        radical?: number;
-        reading_zh_pinyin_numbered?: string;
-        reading_zh_pinyin_diacritics?: string;
-        reading_ko_hangeul?: string;
-        reading_ko_latin?: string;
-        reading_ja_onyomi_katakana?: string;
-        reading_ja_onyomi_latin?: string;
-        reading_ja_kunyomi_hiragana?: string;
-        reading_ja_kunyomi_latin?: string;
-        reading_ja_nanori_hiragana?: string;
-        reading_ja_nanori_latin?: string;
-        meanings?: string;
+        literal: string;
+        literal_kyujitai: string | null;
+        literal_simplified: string | null;
+        frequency: number | null;
+        strokeCounts: number;
+        grade: number | null;
+        jlpt: number | null;
+        radical: number | null;
+        reading_zh_pinyin_numbered: string;
+        reading_zh_pinyin_diacritics: string;
+        reading_ko_hangeul: string;
+        reading_ko_latin: string;
+        reading_ja_onyomi_katakana: string;
+        reading_ja_onyomi_latin: string;
+        reading_ja_kunyomi_hiragana: string;
+        reading_ja_kunyomi_latin: string;
+        reading_ja_nanori_hiragana: string;
+        reading_ja_nanori_latin: string;
+        meanings: string;
     }>, "many">;
     export type KanjiList = z.infer<typeof KanjiList>;
     export const ArrayWithTotalCount: <T extends z.ZodArray<z.AnyZodObject, "many">>(type: T) => z.ZodArray<z.ZodObject<(T extends z.ZodArray<infer A extends z.AnyZodObject, "many"> ? A extends z.ZodObject<infer B extends z.ZodRawShape, z.UnknownKeysParam, z.ZodTypeAny, z.objectUtil.addQuestionMarks<z.baseObjectOutputType<infer B extends z.ZodRawShape>, { [k_1 in keyof z.baseObjectOutputType<infer B extends z.ZodRawShape>]: undefined extends z.baseObjectOutputType<B>[k_1] ? never : k_1; }[keyof infer B extends z.ZodRawShape]> extends infer T_1 ? { [k in keyof T_1]: z.objectUtil.addQuestionMarks<z.baseObjectOutputType<infer B extends z.ZodRawShape>, { [k_1 in keyof z.baseObjectOutputType<infer B extends z.ZodRawShape>]: undefined extends z.baseObjectOutputType<B>[k_1] ? never : k_1; }[keyof infer B extends z.ZodRawShape]>[k]; } : never, z.baseObjectInputType<infer B extends z.ZodRawShape> extends infer T_2 ? { [k_2 in keyof T_2]: z.baseObjectInputType<infer B extends z.ZodRawShape>[k_2]; } : never> ? B : never : never) & {
@@ -646,69 +646,69 @@ declare module "libs/types/src/index" {
                 sortDefault: z.ZodBoolean;
                 directionDefault: z.ZodBoolean;
             }, "strip", z.ZodTypeAny, {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             }, {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             }>;
         }, "strip", z.ZodTypeAny, {
-            Sentences?: {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+            Sentences: {
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             };
         }, {
-            Sentences?: {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+            Sentences: {
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             };
         }>;
         results: z.ZodArray<z.ZodObject<{
@@ -727,46 +727,46 @@ declare module "libs/types/src/index" {
                     author: z.ZodString;
                     sentence_id: z.ZodOptional<z.ZodNumber>;
                 }, "strip", z.ZodTypeAny, {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }, {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }>, "many">;
                 isDirect: z.ZodOptional<z.ZodBoolean>;
                 lang_name: z.ZodString;
                 dir: z.ZodString;
                 lang_tag: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }, {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }>, "many">, "many">;
             transcriptions: z.ZodArray<z.ZodObject<{
                 id: z.ZodNumber;
@@ -780,37 +780,37 @@ declare module "libs/types/src/index" {
                 html: z.ZodString;
                 info_message: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }, {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }>, "many">;
             audios: z.ZodArray<z.ZodObject<{
                 id: z.ZodNumber;
                 author: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                id?: number;
-                author?: string;
+                id: number;
+                author: string;
             }, {
-                id?: number;
-                author?: string;
+                id: number;
+                author: string;
             }>, "many">;
             lang_name: z.ZodString;
             dir: z.ZodString;
@@ -818,213 +818,213 @@ declare module "libs/types/src/index" {
             is_owned_by_current_user: z.ZodBoolean;
             max_visible_translations: z.ZodNumber;
         }, "strip", z.ZodTypeAny, {
-            id?: number;
-            text?: string;
-            lang?: string;
-            correctness?: number;
-            license?: string;
-            translations?: {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+            id: number;
+            text: string;
+            lang: string;
+            correctness: number;
+            license: string;
+            translations: {
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }[][];
-            transcriptions?: {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+            audios: {
+                id: number;
+                author: string;
             }[];
-            audios?: {
-                id?: number;
-                author?: string;
+            lang_name: string;
+            dir: string;
+            lang_tag: string;
+            transcriptions: {
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }[];
-            lang_name?: string;
-            dir?: string;
-            lang_tag?: string;
-            is_owned_by_current_user?: boolean;
-            max_visible_translations?: number;
+            is_owned_by_current_user: boolean;
+            max_visible_translations: number;
         }, {
-            id?: number;
-            text?: string;
-            lang?: string;
-            correctness?: number;
-            license?: string;
-            translations?: {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+            id: number;
+            text: string;
+            lang: string;
+            correctness: number;
+            license: string;
+            translations: {
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }[][];
-            transcriptions?: {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+            audios: {
+                id: number;
+                author: string;
             }[];
-            audios?: {
-                id?: number;
-                author?: string;
+            lang_name: string;
+            dir: string;
+            lang_tag: string;
+            transcriptions: {
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }[];
-            lang_name?: string;
-            dir?: string;
-            lang_tag?: string;
-            is_owned_by_current_user?: boolean;
-            max_visible_translations?: number;
+            is_owned_by_current_user: boolean;
+            max_visible_translations: number;
         }>, "many">;
     }, "strip", z.ZodTypeAny, {
-        paging?: {
-            Sentences?: {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+        paging: {
+            Sentences: {
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             };
         };
-        results?: {
-            id?: number;
-            text?: string;
-            lang?: string;
-            correctness?: number;
-            license?: string;
-            translations?: {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+        results: {
+            id: number;
+            text: string;
+            lang: string;
+            correctness: number;
+            license: string;
+            translations: {
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }[][];
-            transcriptions?: {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+            audios: {
+                id: number;
+                author: string;
             }[];
-            audios?: {
-                id?: number;
-                author?: string;
+            lang_name: string;
+            dir: string;
+            lang_tag: string;
+            transcriptions: {
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }[];
-            lang_name?: string;
-            dir?: string;
-            lang_tag?: string;
-            is_owned_by_current_user?: boolean;
-            max_visible_translations?: number;
+            is_owned_by_current_user: boolean;
+            max_visible_translations: number;
         }[];
     }, {
-        paging?: {
-            Sentences?: {
-                finder?: string;
-                page?: number;
-                current?: number;
-                count?: number;
-                perPage?: number;
-                start?: number;
-                end?: number;
-                prevPage?: boolean;
-                nextPage?: boolean;
-                pageCount?: number;
-                sort?: string;
-                direction?: boolean;
-                sortDefault?: boolean;
-                directionDefault?: boolean;
+        paging: {
+            Sentences: {
+                sort: string;
+                finder: string;
+                page: number;
+                current: number;
+                count: number;
+                perPage: number;
+                start: number;
+                end: number;
+                prevPage: boolean;
+                nextPage: boolean;
+                pageCount: number;
+                direction: boolean;
+                sortDefault: boolean;
+                directionDefault: boolean;
             };
         };
-        results?: {
-            id?: number;
-            text?: string;
-            lang?: string;
-            correctness?: number;
-            license?: string;
-            translations?: {
-                id?: number;
-                text?: string;
-                lang?: string;
-                correctness?: number;
-                audios?: {
-                    id?: number;
-                    author?: string;
-                    sentence_id?: number;
+        results: {
+            id: number;
+            text: string;
+            lang: string;
+            correctness: number;
+            license: string;
+            translations: {
+                id: number;
+                text: string;
+                lang: string;
+                correctness: number;
+                audios: {
+                    id: number;
+                    author: string;
+                    sentence_id?: number | undefined;
                 }[];
-                isDirect?: boolean;
-                lang_name?: string;
-                dir?: string;
-                lang_tag?: string;
+                lang_name: string;
+                dir: string;
+                lang_tag: string;
+                isDirect?: boolean | undefined;
             }[][];
-            transcriptions?: {
-                id?: number;
-                sentence_id?: number;
-                script?: string;
-                text?: string;
-                needsReview?: boolean;
-                modified?: string;
-                readonly?: boolean;
-                type?: string;
-                html?: string;
-                info_message?: string;
+            audios: {
+                id: number;
+                author: string;
             }[];
-            audios?: {
-                id?: number;
-                author?: string;
+            lang_name: string;
+            dir: string;
+            lang_tag: string;
+            transcriptions: {
+                type: string;
+                id: number;
+                text: string;
+                sentence_id: number;
+                script: string;
+                needsReview: boolean;
+                modified: string;
+                readonly: boolean;
+                html: string;
+                info_message: string;
             }[];
-            lang_name?: string;
-            dir?: string;
-            lang_tag?: string;
-            is_owned_by_current_user?: boolean;
-            max_visible_translations?: number;
+            is_owned_by_current_user: boolean;
+            max_visible_translations: number;
         }[];
     }>;
     export type TatoebaResponse = z.infer<typeof TatoebaResponse>;
@@ -1067,71 +1067,71 @@ declare module "apps/ziyo-be/src/utils/response" {
         readonly message: string;
     };
 }
-/// <amd-module name="BackendType" />
-declare module "BackendType" {
+/// <amd-module name="~api-types" />
+declare module "~api-types" {
     import { Hono } from 'hono';
     const app: Hono<import("hono").Env, import("hono").ToSchema<"get", "/api/*", unknown, any> & import("hono").ToSchema<"get", "/api/og-image.png", {
-        query?: {
-            character?: string;
+        query: {
+            character?: string | undefined;
         };
     }, {}> & import("hono").ToSchema<"get", "/api/kanji/one", {
-        query?: {
-            character?: string;
+        query: {
+            character: string;
         };
     }, import("hono/utils/types").JSONParsed<{
         readonly ok: true;
         readonly data: {
-            literal?: string;
-            literal_kyujitai?: string;
-            literal_simplified?: string;
-            frequency?: number;
-            strokeCounts?: number;
-            grade?: number;
-            jlpt?: number;
-            radical?: number;
-            reading_zh_pinyin_numbered?: string[];
-            reading_zh_pinyin_diacritics?: string[];
-            reading_ko_hangeul?: string[];
-            reading_ko_latin?: string[];
-            reading_ja_onyomi_katakana?: string[];
-            reading_ja_onyomi_latin?: string[];
-            reading_ja_kunyomi_hiragana?: string[];
-            reading_ja_kunyomi_latin?: string[];
-            reading_ja_nanori_hiragana?: string[];
-            reading_ja_nanori_latin?: string[];
-            meanings?: string[];
+            literal: string;
+            literal_kyujitai: string | null;
+            literal_simplified: string | null;
+            frequency: number | null;
+            strokeCounts: number;
+            grade: number | null;
+            jlpt: number | null;
+            radical: number | null;
+            reading_zh_pinyin_numbered: string[];
+            reading_zh_pinyin_diacritics: string[];
+            reading_ko_hangeul: string[];
+            reading_ko_latin: string[];
+            reading_ja_onyomi_katakana: string[];
+            reading_ja_onyomi_latin: string[];
+            reading_ja_kunyomi_hiragana: string[];
+            reading_ja_kunyomi_latin: string[];
+            reading_ja_nanori_hiragana: string[];
+            reading_ja_nanori_latin: string[];
+            meanings: string[];
         };
         readonly message: "success";
     }>> & import("hono").ToSchema<"get", "/api/kanji/list", {
-        query?: {
-            search?: string;
-            limit?: string;
-            offset?: string;
+        query: {
+            search: string;
+            limit?: string | undefined;
+            offset?: string | undefined;
         };
     }, import("hono/utils/types").JSONParsed<{
         readonly ok: true;
         readonly data: {
             readonly docs: {
-                literal?: string;
-                literal_kyujitai?: string;
-                literal_simplified?: string;
-                frequency?: number;
-                strokeCounts?: number;
-                grade?: number;
-                jlpt?: number;
-                radical?: number;
-                reading_zh_pinyin_numbered?: string[];
-                reading_zh_pinyin_diacritics?: string[];
-                reading_ko_hangeul?: string[];
-                reading_ko_latin?: string[];
-                reading_ja_onyomi_katakana?: string[];
-                reading_ja_onyomi_latin?: string[];
-                reading_ja_kunyomi_hiragana?: string[];
-                reading_ja_kunyomi_latin?: string[];
-                reading_ja_nanori_hiragana?: string[];
-                reading_ja_nanori_latin?: string[];
-                meanings?: string[];
-                total_count?: number;
+                literal: string;
+                literal_kyujitai: string | null;
+                literal_simplified: string | null;
+                frequency: number | null;
+                strokeCounts: number;
+                grade: number | null;
+                jlpt: number | null;
+                radical: number | null;
+                reading_zh_pinyin_numbered: string[];
+                reading_zh_pinyin_diacritics: string[];
+                reading_ko_hangeul: string[];
+                reading_ko_latin: string[];
+                reading_ja_onyomi_katakana: string[];
+                reading_ja_onyomi_latin: string[];
+                reading_ja_kunyomi_hiragana: string[];
+                reading_ja_kunyomi_latin: string[];
+                reading_ja_nanori_hiragana: string[];
+                reading_ja_nanori_latin: string[];
+                meanings: string[];
+                total_count: number;
             }[];
             readonly page: number;
             readonly totalDocs: number;
