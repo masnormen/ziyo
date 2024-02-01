@@ -9,6 +9,6 @@ echo "🔥 Generating API types..."
 pnpm tsc --project $GEN_TYPES_TSCONFIG_PATH --declaration --emitDeclarationOnly --verbatimModuleSyntax false --outFile $GEN_TYPES_TARGET
 
 # Inject ignore eslint errors
-echo -e "/* eslint-disable */\n$(cat $GEN_TYPES_TARGET)" > $GEN_TYPES_TARGET
+echo "/* eslint-disable */\n$(cat $GEN_TYPES_TARGET)" > $GEN_TYPES_TARGET
 
 echo "✅ Done!"

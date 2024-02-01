@@ -1,4 +1,4 @@
--e /* eslint-disable */
+/* eslint-disable */
 declare module "libs/types/src/index" {
     import { z } from 'zod';
     export const Kanji: z.ZodObject<{
