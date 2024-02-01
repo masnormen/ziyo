@@ -10,13 +10,13 @@ import { cn } from '@ziyo/ui/utils';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { searchAtom, valueAtom } from '../atoms';
 import { Chip } from '../components/Chip';
 import { useGetKanjiList } from '../hooks/query/useGetKanjiList';
 
-export function Search({ floating = false }: { floating?: boolean }) {
+export function Search() {
   const router = useRouter();
 
   const [value, setValue] = useAtom(valueAtom);
@@ -57,18 +57,18 @@ export function Search({ floating = false }: { floating?: boolean }) {
     setIsFocused(false);
   });
 
+  const cmdInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <Command
       ref={cmdRef}
       value={value}
       onValueChange={setValue}
       shouldFilter={false}
-      className={cn(
-        'relative h-fit shadow-md outline outline-kiiro-300',
-        floating && 'overflow-visible',
-      )}
+      className="relative h-fit overflow-visible shadow-md outline outline-kiiro-300"
     >
       <CommandInput
+        ref={cmdInputRef}
         value={query}
         onValueChange={setQuery}
         placeholder="Type a Kanji, a Kanji reading, or search by meaning..."
@@ -76,10 +76,8 @@ export function Search({ floating = false }: { floating?: boolean }) {
       />
       <CommandList
         className={cn(
-          'transition-all',
-          floating && !isFocused && 'max-h-0 !outline-none',
-          floating &&
-            'absolute top-[45px] z-10 w-full rounded-b-md bg-white outline outline-kiiro-300',
+          'absolute top-[45px] z-10 w-full rounded-b-md bg-white shadow-lg outline outline-kiiro-300 transition-all',
+          !isFocused && 'max-h-0 !outline-none',
         )}
         onScroll={(e) => {
           const target = e.currentTarget;
@@ -116,8 +114,10 @@ export function Search({ floating = false }: { floating?: boolean }) {
             <CommandItem
               key={kanji.literal}
               value={kanji.literal}
-              onSelect={(literal) => {
-                router.push(`/kanji/${literal}`);
+              onSelect={async (literal) => {
+                await router.push(`/kanji/${literal}`);
+                setIsFocused(false);
+                cmdInputRef.current?.blur();
               }}
               className="cursor-pointer border-b border-kiiro-50 py-0"
             >

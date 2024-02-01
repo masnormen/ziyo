@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import { Sora } from 'next/font/google';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
+import NextNProgress from 'nextjs-progressbar';
 
 import { DEFAULT_SEO_PROPS } from '../configs/next-seo';
 import { ClientProviders } from '../providers/client';
@@ -39,6 +40,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <ClientProviders>
         <Component {...pageProps} />
       </ClientProviders>
+
+      <NextNProgress color="#DD8F09" height={5} showOnShallow={true} />
     </>
   );
 }

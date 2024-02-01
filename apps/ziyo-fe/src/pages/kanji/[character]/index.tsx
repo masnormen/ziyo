@@ -1,4 +1,3 @@
-import { isHan } from '@scriptin/is-han';
 import { TatoebaResponse } from '@ziyo/types';
 import {
   Tooltip,
@@ -11,24 +10,38 @@ import type {
   InferGetServerSidePropsType,
 } from 'next';
 import { NextSeo } from 'next-seo';
-import { useCallback, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
-import { AudioPlay } from '../../../components/AudioPlay';
 import { Branding } from '../../../components/Branding';
 import { Chip } from '../../../components/Chip';
+import { ReadingChip } from '../../../components/ReadingChip';
+import { Ruby } from '../../../components/Ruby';
 import { Search } from '../../../components/Search';
+import { Settings } from '../../../components/Settings';
 import { api } from '../../../lib/api';
 
-const KanjiLink = ({
-  kanji,
-  highlight,
-}: {
-  kanji: string;
-  highlight?: boolean;
-}) =>
-  `<a href="${kanji}" class="underline decoration-gray-400 underline-offset-4 hover:no-underline${
-    highlight ? ` font-semibold` : ''
-  }">${kanji}</a>`;
+export const VariantChip = ({
+  lang,
+  className,
+  tooltipContent,
+  children,
+  ...props
+}: JSX.IntrinsicElements['span'] & {
+  tooltipContent: string;
+}) => {
+  return (
+    <TooltipProvider>
+      <Tooltip delayDuration={100}>
+        <TooltipTrigger>
+          <Chip lang={lang} className={className} {...props}>
+            {children}
+          </Chip>
+        </TooltipTrigger>
+        <TooltipContent>{tooltipContent}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
 
 export const getServerSideProps = async ({
   query: { character },
@@ -75,18 +88,12 @@ export default function KanjiPage({
   sentences: _sentences,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const sentences = _sentences.results.map((s) => {
-    const rawText = s.transcriptions[0]?.html ?? s.transcriptions[0]?.text;
-    const text = Array.from(rawText)
-      .map((char) => {
-        return isHan(char)
-          ? KanjiLink({ kanji: char, highlight: char === kanji.literal })
-          : char;
-      })
-      .join('');
     return {
       id: s.id,
-      text: text,
-      translation: s.translations[0]?.[0]?.text || 'No translation available',
+      text: s.transcriptions[0]?.text,
+      translation: s.translations[0]?.[0]?.text || (
+        <span className="italic">No translation available</span>
+      ),
     };
   });
 
@@ -115,96 +122,76 @@ export default function KanjiPage({
 
       <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-8 py-16 md:justify-start">
         <Branding small />
-        <Search floating />
+        <Search />
+        <Settings />
 
         <h1
           lang={hoveredVariants ? hoveredVariants.lang : 'ja'}
-          className="mb-8 mt-16 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
+          className="mb-6 mt-8 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
         >
           {hoveredVariants ? hoveredVariants.char : kanji.literal}
         </h1>
 
         {/* Variants */}
-        <section className="mb-8 flex flex-row items-center justify-center gap-4 font-medium">
+        <section className="mb-6 flex flex-row items-center justify-center gap-2 font-medium md:gap-4">
+          <span className="mr-3 text-sm font-semibold text-kiiro-800">
+            Variants
+          </span>
           {kanji.literal_simplified && (
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger>
-                  <Chip
-                    lang="zh-Hans"
-                    className="bg-indigo-50 text-2xl font-normal hover:bg-indigo-600 hover:text-gray-100"
-                    {...createHoveredProps('zh-Hans', kanji.literal_simplified)}
-                  >
-                    {kanji.literal_simplified}
-                  </Chip>
-                </TooltipTrigger>
-                <TooltipContent>Simplified Chinese</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <VariantChip
+              tooltipContent="Simplified Chinese"
+              lang="zh-Hans"
+              className="border border-indigo-100 bg-indigo-50 text-2xl font-normal hover:bg-indigo-600 hover:text-gray-100"
+              {...createHoveredProps('zh-Hans', kanji.literal_simplified)}
+            >
+              {kanji.literal_simplified}
+            </VariantChip>
           )}
 
           {kanji.literal_kyujitai && (
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger>
-                  <Chip
-                    lang="zh-Hant"
-                    className="bg-emerald-50 text-2xl font-normal hover:bg-emerald-700 hover:text-gray-100"
-                    {...createHoveredProps('zh-Hant', kanji.literal_kyujitai)}
-                  >
-                    {kanji.literal_kyujitai}
-                  </Chip>
-                </TooltipTrigger>
-                <TooltipContent>Traditional Chinese / Kyūjitai</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <VariantChip
+              tooltipContent="Traditional Chinese / Kyūjitai"
+              lang="zh-Hant"
+              className="border border-emerald-100 bg-emerald-50 text-2xl font-normal hover:bg-emerald-700 hover:text-gray-100"
+              {...createHoveredProps('zh-Hant', kanji.literal_kyujitai)}
+            >
+              {kanji.literal_kyujitai}
+            </VariantChip>
           )}
 
           {kanji.literal_kyujitai && (
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger>
-                  <Chip
-                    lang="ko"
-                    className="bg-yellow-50 text-2xl font-normal hover:bg-yellow-600 hover:text-gray-100"
-                    {...createHoveredProps('ko', kanji.literal_kyujitai)}
-                  >
-                    {kanji.literal_kyujitai}
-                  </Chip>
-                </TooltipTrigger>
-                <TooltipContent>Korean / Hanja</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <VariantChip
+              tooltipContent="Korean / Hanja"
+              lang="ko"
+              className="border border-yellow-100 bg-yellow-50 text-2xl font-normal hover:bg-yellow-600 hover:text-gray-100"
+              {...createHoveredProps('ko', kanji.literal_kyujitai)}
+            >
+              {kanji.literal_kyujitai}
+            </VariantChip>
           )}
         </section>
+
+        <div className="mb-6 text-center text-sm font-medium">
+          {kanji.meanings.join(' · ')}
+        </div>
 
         {/* Reading-Meanings */}
         <section className="flex w-full flex-col gap-3">
           {kanji.reading_ja_onyomi_katakana.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="min-w-20 font-semibold">Onyomi</span>
+              <span className="mt-0.5 min-w-20 text-sm font-semibold text-kiiro-800">
+                Onyomi
+              </span>
               <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ja_onyomi_katakana.map((onyomi, onyomiIdx) => (
-                  <TooltipProvider key={onyomi}>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger>
-                        <Chip
-                          lang="ja"
-                          className="bg-rose-100 text-gray-900 hover:bg-rose-700 hover:text-gray-100"
-                        >
-                          {onyomi}
-                        </Chip>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <AudioPlay
-                          voice="jp_001"
-                          text={onyomi}
-                          latin={kanji.reading_ja_onyomi_latin[onyomiIdx]}
-                          lang="ja"
-                        />
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ReadingChip
+                    key={onyomi}
+                    voice="jp_001"
+                    lang="ja"
+                    text={onyomi}
+                    latin={kanji.reading_ja_onyomi_latin[onyomiIdx]}
+                    className="bg-rose-100 text-gray-900 hover:bg-rose-700 hover:text-gray-100"
+                  />
                 ))}
               </div>
             </div>
@@ -212,33 +199,21 @@ export default function KanjiPage({
 
           {kanji.reading_ja_kunyomi_hiragana.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="min-w-20 font-semibold">Kunyomi</span>
+              <span className="mt-0.5 min-w-20 text-sm font-semibold text-kiiro-800">
+                Kunyomi
+              </span>
               <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ja_kunyomi_hiragana.map(
                   (kunyomi, kunyomiIdx) => (
-                    <TooltipProvider key={kunyomi}>
-                      <Tooltip delayDuration={100}>
-                        <TooltipTrigger>
-                          <Chip
-                            lang="ja"
-                            className="bg-kiiro-200 text-gray-900 hover:bg-kiiro-800 hover:text-gray-100"
-                          >
-                            {kunyomi}
-                          </Chip>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <AudioPlay
-                            voice="jp_001"
-                            text={kunyomi.replace('.', '')}
-                            latin={kanji.reading_ja_kunyomi_latin[
-                              kunyomiIdx
-                            ]?.replace('.', '')}
-                            other={kunyomi.replace(/^[^.]*\./, kanji.literal)}
-                            lang="ja"
-                          />
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <ReadingChip
+                      key={kunyomi}
+                      voice="jp_001"
+                      lang="ja"
+                      text={kunyomi}
+                      latin={kanji.reading_ja_kunyomi_latin[kunyomiIdx]}
+                      other={kunyomi.replace(/^[^.]*\./, kanji.literal)}
+                      className="bg-kiiro-200 text-gray-900 hover:bg-kiiro-800 hover:text-gray-100"
+                    />
                   ),
                 )}
               </div>
@@ -247,30 +222,20 @@ export default function KanjiPage({
 
           {kanji.reading_zh_pinyin_diacritics.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="min-w-20 font-semibold">Chinese</span>
+              <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
+                Chinese
+              </span>
               <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_zh_pinyin_diacritics.map((pinyin, pinyinIdx) => (
-                  <TooltipProvider key={pinyin}>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger>
-                        <Chip
-                          lang="zh"
-                          className="bg-purple-100 text-gray-900 hover:bg-purple-600 hover:text-gray-100"
-                        >
-                          {pinyin}
-                        </Chip>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <AudioPlay
-                          voice={null}
-                          text={pinyin}
-                          latin={pinyin}
-                          other={kanji.reading_zh_pinyin_numbered[pinyinIdx]}
-                          lang="zh"
-                        />
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ReadingChip
+                    key={pinyin}
+                    voice={null}
+                    lang="zh"
+                    text={pinyin}
+                    latin={pinyin}
+                    other={kanji.reading_zh_pinyin_numbered[pinyinIdx]}
+                    className="bg-purple-100 text-gray-900 hover:bg-purple-600 hover:text-gray-100"
+                  />
                 ))}
               </div>
             </div>
@@ -278,45 +243,60 @@ export default function KanjiPage({
 
           {kanji.reading_ko_hangeul.length > 0 && (
             <div className="flex flex-row gap-4">
-              <span className="min-w-20 font-semibold">Korean</span>
+              <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
+                Korean
+              </span>
               <div className="inline-flex flex-row flex-wrap gap-1">
                 {kanji.reading_ko_hangeul.map((hangeul, hangeulIdx) => (
-                  <TooltipProvider key={hangeul}>
-                    <Tooltip delayDuration={100}>
-                      <TooltipTrigger>
-                        <Chip
-                          lang="ko"
-                          className="bg-blue-100 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
-                        >
-                          {hangeul}
-                        </Chip>
-                      </TooltipTrigger>
-                      <TooltipContent className="flex flex-col items-center justify-center">
-                        <span className="text-xs">*Might not be accurate</span>
-                        <AudioPlay
-                          voice="kr_002"
-                          text={`${hangeul}!`}
-                          latin={kanji.reading_ko_latin[hangeulIdx].replace(
-                            '.',
-                            '',
-                          )}
-                          lang="ko"
-                        />
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <ReadingChip
+                    key={hangeul}
+                    voice="kr_002"
+                    lang="ko"
+                    text={hangeul}
+                    latin={kanji.reading_ko_latin[hangeulIdx]}
+                    className="bg-blue-100 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
+                  />
                 ))}
               </div>
             </div>
           )}
 
-          <div className="mt-6">{kanji.meanings.join(', ')}</div>
+          <div className="mt-6 flex flex-row gap-4">
+            <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
+              Level
+            </span>
+            <div className="mt-0.5 inline-flex flex-row flex-wrap gap-1 text-sm">
+              {kanji.jlpt ? `JLPT N${kanji.jlpt} (old)` : 'N/A'} /{' '}
+              {kanji.grade ? `Grade ${kanji.grade}` : 'N/A'}
+            </div>
+          </div>
+
+          <div className="flex flex-row gap-4">
+            <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
+              Frequency
+            </span>
+            <div className="mt-0.5 inline-flex flex-row flex-wrap gap-1 text-sm">
+              #{kanji.frequency ?? 'N/A'}
+            </div>
+          </div>
+
+          <div className="flex flex-row gap-4">
+            <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
+              Strokes
+            </span>
+            <div className="mt-0.5 inline-flex flex-row flex-wrap gap-1 text-sm">
+              {kanji.strokeCounts} strokes
+            </div>
+          </div>
         </section>
 
-        <section className="mt-6 flex w-full flex-col gap-4">
+        <section className="mt-4 flex w-full flex-col gap-4">
+          <span className="text-sm font-semibold text-kiiro-900">
+            {sentences.length > 0 ? 'Examples' : 'No examples found 😢'}
+          </span>
           {sentences.map((s) => (
             <div key={s.id} lang="ja" className="flex flex-col">
-              <span key={s.id} dangerouslySetInnerHTML={{ __html: s.text }} />
+              <Ruby rubyString={s.text} />
               <span className="text-sm">{s.translation}</span>
             </div>
           ))}
