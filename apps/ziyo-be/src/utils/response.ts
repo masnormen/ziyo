@@ -9,17 +9,31 @@ export function ok<T extends JSONValue>(data: T) {
 }
 
 export function okPagination<
-  TData extends Array<TObject>,
-  TObject extends { total_count?: number },
->({ data, limit, offset }: { data: TData; limit: number; offset: number }) {
-  const total = data.length > 0 ? data[0].total_count ?? 0 : 0;
+  TData extends Array<{ total_count?: number; [key: string]: unknown }>,
+>({
+  data,
+  limit,
+  offset,
+  total,
+}: {
+  data: TData;
+  limit: number;
+  offset: number;
+  total?: number;
+}) {
+  const _total = (() => {
+    if (total !== undefined) return total;
+    const count = data.at(0)?.total_count ?? 0;
+    return count;
+  })();
+
   return {
     ok: true,
     data: {
       docs: data,
       page: Math.ceil(offset / limit) + 1,
-      totalDocs: total,
-      totalPages: Math.ceil(total / limit),
+      totalDocs: _total,
+      totalPages: Math.ceil(_total / limit),
     },
     message: 'success',
   } as const;

@@ -4,7 +4,7 @@ import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
 import { Resvg } from '@resvg/resvg-js';
 import { isHan } from '@scriptin/is-han';
-import { ArrayWithTotalCount, Kanji, KanjiList } from '@ziyo/types';
+import { Kanji } from '@ziyo/types';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { Hono } from 'hono';
 import { compress } from 'hono/compress';
@@ -15,15 +15,15 @@ import path from 'path';
 import satori from 'satori';
 import { open } from 'sqlite';
 import sqlite3 from 'sqlite3';
+import type { SearchParams } from 'typesense/lib/Typesense/Documents';
 import { fileURLToPath } from 'url';
-import { isHiragana, isKana, isKatakana, toRomaji } from 'wanakana';
+import { isHiragana, isKana, isKatakana, isRomaji, toRomaji } from 'wanakana';
 import { z } from 'zod';
 
+import { typesense } from './lib/typesense';
 import { IndexOpenGraphImage, KanjiOpenGraphImage } from './og-images';
 import isHangeul from './utils/isHangeul';
 import { err, ok, okPagination } from './utils/response';
-
-const sql = String.raw;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -199,154 +199,81 @@ const app = new Hono()
     async (c) => {
       const { search: _search, limit, offset } = c.req.valid('query');
 
-      let search: string = _search;
+      let search: string | undefined = undefined;
       let searchMode: 'latin' | 'hangeul' | 'han' = 'latin';
 
       for (const char of _search) {
         if (isHan(char)) {
           // Strip non-Han characters
-          search = Array.from(search).filter(isHan).join('');
+          search = Array.from(_search).filter(isHan).join('');
           searchMode = 'han';
           break;
         }
         if (isHiragana(char) || isKatakana(char)) {
           // Strip non-kana characters, then convert to Latin
-          search = toRomaji(Array.from(search).filter(isKana).join(''));
+          search = toRomaji(Array.from(_search).filter(isKana).join(''));
           searchMode = 'latin';
           break;
         }
         if (isHangeul(char, 1)) {
           // Strip non-Hangeul characters
-          search = Array.from(search)
+          search = Array.from(_search)
             .filter((c) => isHangeul(c, 1))
             .join('');
           searchMode = 'hangeul';
           break;
         }
-        search = search.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+        if (isRomaji(char)) {
+          search = _search.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+        }
       }
 
-      const sqlQuery = sql`
-        SELECT
-          literal,
-          literal_kyujitai,
-          literal_simplified,
-          strokeCounts,
-          grade,
-          jlpt,
-          radical,
-          meanings,
-          frequency,
-          reading_ja_onyomi_katakana,
-          reading_ja_kunyomi_hiragana,
-          reading_ja_onyomi_latin,
-          reading_ja_kunyomi_latin,
-          reading_ja_nanori_hiragana,
-          reading_ja_nanori_latin,
-          reading_zh_pinyin_numbered,
-          reading_zh_pinyin_diacritics,
-          reading_ko_hangeul,
-          reading_ko_latin,
-          COALESCE((100 - (frequency * 100 / (SELECT MAX(frequency) FROM kanji))), 10) AS freq_percentage,
-          REPLACE(reading_ja_onyomi_latin, '.', '') as reading_ja_onyomi_latin_stripped_raw,
-          REPLACE(reading_ja_kunyomi_latin, '.', '') as reading_ja_kunyomi_latin_stripped_raw,
-          COUNT(*) OVER() AS total_count
-        FROM
-          kanji
-          -- Additional JSON columns
-          ${(() => {
-            if (searchMode === 'latin') {
-              return sql`
-                ,json_each(reading_ja_onyomi_latin_stripped_raw) reading_ja_onyomi_latin_json,
-                json_each(reading_ja_kunyomi_latin_stripped_raw) reading_ja_kunyomi_latin_json,
-                json_each(meanings) meanings_json,
-                json_each(reading_ko_latin) reading_ko_latin_json,
-                json_each(reading_zh_pinyin_numbered) reading_zh_pinyin_numbered_json
-              `;
-            }
-            if (searchMode === 'hangeul') {
-              return sql`
-                ,json_each(reading_ko_hangeul) reading_ko_hangeul_json
-              `;
-            }
-          })()}
-        WHERE
-          ${(() => {
-            if (searchMode === 'latin') {
-              return sql`
-                reading_ja_onyomi_latin_json.value like $search || '%'
-                OR reading_ja_kunyomi_latin_json.value like $search || '%'
-                OR meanings_json.value like $search || '%'
-                OR reading_ko_latin_json.value like $search || '%'
-                OR reading_zh_pinyin_numbered_json.value like $search || '%'
-              `;
-            }
-            if (searchMode === 'hangeul') {
-              return sql`
-                reading_ko_hangeul_json.value like $search || '%'
-              `;
-            }
-            // Han
-            return sql`
-              $search LIKE literal || '%'
-              OR $search LIKE literal_kyujitai || '%'
-              OR $search LIKE literal_simplified || '%'
-            `;
-          })()}
-        GROUP BY literal
-        ORDER BY (
-          -- 40% frequency
-          (0.3 * freq_percentage)
-          +
-          -- 60% likeness
-          (0.7 * CASE
-            ${(() => {
-              if (searchMode === 'latin') {
-                return sql`
-                  WHEN reading_ja_onyomi_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_onyomi_latin_json.value))
-                  WHEN reading_ja_kunyomi_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ja_kunyomi_latin_json.value))
-                  WHEN meanings_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(meanings_json.value)) * 0.5
-                  WHEN reading_ko_latin_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_ko_latin_json.value)) * 0.8
-                  WHEN reading_zh_pinyin_numbered_json.value LIKE $search || '%' THEN (LENGTH($search) * 100 / LENGTH(reading_zh_pinyin_numbered_json.value)) * 0.7
-                `;
-              }
-              if (searchMode === 'hangeul') {
-                return sql`
-                  WHEN reading_ko_hangeul_json.value LIKE $search || '%' THEN 1
-                `;
-              }
-              // Han
-              return sql`
-                WHEN $search LIKE literal || '%' THEN 1
-                WHEN $search LIKE literal_kyujitai || '%' THEN 1
-                WHEN $search LIKE literal_simplified || '%' THEN 1
-              `;
-            })()}
-          ELSE 50
-          END)
-        ) DESC
-        LIMIT $limit
-        OFFSET $offset
-      `;
-
-      const _kanjiList = await db.all(sqlQuery, {
-        $search: search,
-        $limit: limit,
-        $offset: offset,
-      });
-
-      const kanjiList = ArrayWithTotalCount(KanjiList).safeParse(_kanjiList);
-      if (!kanjiList.success) {
-        throw new HTTPException(500, {
-          message: "There's a problem processing your request.",
-        });
+      if (search == null) {
+        search = _search.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
       }
+
+      const searchParams: SearchParams = (() => {
+        switch (searchMode) {
+          case 'latin':
+            return {
+              q: search,
+              query_by:
+                'reading_ja_onyomi_latin_stripped_raw,reading_ja_kunyomi_latin_stripped_raw,meanings,reading_ko_latin,reading_zh_pinyin_numbered',
+              query_by_weights: '10,10,5,8,7',
+              text_match_type: 'max_weight',
+              sort_by: '_text_match:desc,freq_percentage:desc',
+              limit: limit,
+              offset: offset,
+            };
+          case 'hangeul':
+            return {
+              q: search,
+              query_by: 'reading_ko_hangeul',
+              limit: limit,
+              offset: offset,
+            };
+          default:
+            // Han mode
+            return {
+              q: search,
+              query_by: 'literal,literal_kyujitai,literal_simplified',
+              limit: limit,
+              offset: offset,
+            };
+        }
+      })();
+
+      const res = await typesense
+        .collections<Kanji>('kanji')
+        .documents()
+        .search(searchParams);
 
       return c.json(
         okPagination({
-          data: kanjiList.data,
+          data: res.hits?.map((hit) => hit.document) ?? [],
           limit,
           offset,
+          total: res.found,
         }),
       );
     },
@@ -365,5 +292,7 @@ serve(
     console.log(`✅ Listening on http://localhost:${info.port}`);
   },
 );
+
+process.on('exit', () => db.close());
 
 export type BackendType = typeof app;
