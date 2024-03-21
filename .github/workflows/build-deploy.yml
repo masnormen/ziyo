@@ -75,6 +75,8 @@ jobs:
             # Run a new container from the new image
             docker run -d \
               -p $(echo $PORT):$(echo $PORT) \
+              -e TYPESENSE_API_URL=${{ secrets.TYPESENSE_API_URL }} \
+              -e TYPESENSE_API_KEY=${{ secrets.TYPESENSE_API_KEY }} \
               --restart always \
               --name $(echo $IMAGE_NAME) \
               $(echo $REPOSITORY_NAME)/$(echo $IMAGE_NAME):latest
