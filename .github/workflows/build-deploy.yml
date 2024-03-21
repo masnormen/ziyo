@@ -75,6 +75,7 @@ jobs:
             # Run a new container from the new image
             docker run -d \
               -p $(echo $PORT):$(echo $PORT) \
+              -p 8108:8108 \
               -e TYPESENSE_API_URL=${{ secrets.TYPESENSE_API_URL }} \
               -e TYPESENSE_API_KEY=${{ secrets.TYPESENSE_API_KEY }} \
               --restart always \
