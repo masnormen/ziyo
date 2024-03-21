@@ -6,9 +6,7 @@ import { join } from 'path';
 let client = new Client({
   nodes: [
     {
-      host: process.env.TYPESENSE_API_URL,
-      port: 8108,
-      protocol: 'http',
+      url: process.env.TYPESENSE_API_URL,
     },
   ],
   apiKey: process.env.TYPESENSE_API_KEY,
