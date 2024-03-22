@@ -1029,6 +1029,9 @@ declare module "libs/types/src/index" {
     }>;
     export type TatoebaResponse = z.infer<typeof TatoebaResponse>;
 }
+declare module "apps/ziyo-be/src/lib/typesense" {
+    export const typesense: import("typesense").Client;
+}
 declare module "apps/ziyo-be/src/og-images" {
     export const IndexOpenGraphImage: () => import("react/jsx-runtime").JSX.Element;
     /**
@@ -1049,12 +1052,14 @@ declare module "apps/ziyo-be/src/utils/response" {
         readonly data: T;
         readonly message: "success";
     };
-    export function okPagination<TData extends Array<TObject>, TObject extends {
+    export function okPagination<TData extends Array<{
         total_count?: number;
-    }>({ data, limit, offset }: {
+        [key: string]: unknown;
+    }>>({ data, limit, offset, total, }: {
         data: TData;
         limit: number;
         offset: number;
+        total?: number;
     }): {
         readonly ok: true;
         readonly data: {
@@ -1135,7 +1140,6 @@ declare module "~api-types" {
                 reading_ja_nanori_hiragana: string[];
                 reading_ja_nanori_latin: string[];
                 meanings: string[];
-                total_count: number;
             }[];
             readonly page: number;
             readonly totalDocs: number;
