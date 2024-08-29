@@ -40,7 +40,11 @@ const app = new Hono()
   .use('*', cors())
   .use(
     '*',
-    logger((str) => console.log(decodeURIComponent(str))),
+    logger((str) =>
+      console.log(
+        `${decodeURIComponent(str)} on ${new Date().toLocaleString('sv-SE').replace(' ', 'T').split('.')[0]}`,
+      ),
+    ),
   )
   .use('*', compress())
   .get('*', async (c, next) => {
