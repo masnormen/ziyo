@@ -19,6 +19,7 @@ const nextConfig = {
     svgr: false,
   },
   transpilePackages: ['@ziyo/ui', 'lucide-react'],
+  output: 'standalone',
 };
 
 const plugins = [
