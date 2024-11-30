@@ -1,0 +1,27 @@
+version: '3'
+services:
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - --cleanup=true --interval=30
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  ziyo-fe:
+    image: masnormen/ziyo-fe:latest
+    ports:
+      - "3000:3000"
+    restart: always
+  ziyo-be:
+    image: masnormen/ziyo-be:latest
+    ports:
+      - "4200:4200"
+    restart: always
+  # typesense:
+  #   image: typesense/typesense:27.1
+  #   restart: on-failure
+  #   ports:
+  #     - "8108:8108"
+  #   volumes:
+  #     - ./typesense-data:/data
+  #   command: '--data-dir /data --api-key=xyz --enable-cors'
