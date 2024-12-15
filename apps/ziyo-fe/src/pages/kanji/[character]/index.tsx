@@ -76,7 +76,8 @@ export const getServerSideProps = async ({
         sentences,
       },
     };
-  } catch {
+  } catch (e) {
+    console.error(e);
     return {
       notFound: true,
     };
