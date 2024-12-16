@@ -1,4 +1,3 @@
-import { TatoebaResponse } from '@ziyo/types';
 import {
   Tooltip,
   TooltipContent,
@@ -18,6 +17,7 @@ import { ReadingChip } from '../../../components/ReadingChip';
 import { Ruby } from '../../../components/Ruby';
 import { Search } from '../../../components/Search';
 import { Settings } from '../../../components/Settings';
+import { useGetSentenceList } from '../../../hooks/query/useGetSentenceList';
 import { api } from '../../../lib/api';
 
 export const VariantChip = ({
@@ -49,7 +49,7 @@ export const getServerSideProps = async ({
   if (!character || Array.isArray(character)) return { notFound: true };
 
   try {
-    const _kanji = api.kanji.one
+    const kanji = await api.kanji.one
       .$get({
         query: {
           character: decodeURIComponent(character),
@@ -57,23 +57,9 @@ export const getServerSideProps = async ({
       })
       .then(async (res) => (await res.json()).data);
 
-    const _sentences = fetch(
-      `https://tatoeba.org/en/api_v0/search?from=jpn&has_audio=&list=3185&native=&orphans=no&query=${decodeURIComponent(
-        character,
-      )}&sort=random&sort_reverse=&tags=&to=eng&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=eng&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=5`,
-      {
-        next: {
-          revalidate: 0,
-        },
-      },
-    ).then(async (res) => TatoebaResponse.parse(await res.json()));
-
-    const [kanji, sentences] = await Promise.all([_kanji, _sentences]);
-
     return {
       props: {
         kanji,
-        sentences,
       },
     };
   } catch (e) {
@@ -86,17 +72,18 @@ export const getServerSideProps = async ({
 
 export default function KanjiPage({
   kanji,
-  sentences: _sentences,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const sentences = _sentences.results.map((s) => {
-    return {
-      id: s.id,
-      text: s.transcriptions[0]?.text,
-      translation: s.translations[0]?.[0]?.text || (
-        <span className="italic">No translation available</span>
-      ),
-    };
+  const { data: _sentences } = useGetSentenceList({
+    query: { character: kanji.literal },
   });
+  const sentences = (_sentences?.data ?? []).map((s) => ({
+    id: s.id,
+    text: s.transcriptions.flatMap((t) => t.text)[0] ?? '',
+    translation: s.translations
+      .flat(2)
+      .map((t) => t.text)
+      .slice(0, 5),
+  }));
 
   const [hoveredVariants, setHoveredVariants] = useState<{
     lang: string;
@@ -198,7 +185,7 @@ export default function KanjiPage({
                     voice="jp_001"
                     lang="ja"
                     text={onyomi}
-                    latin={kanji.reading_ja_onyomi_latin[onyomiIdx]}
+                    latin={kanji.reading_ja_onyomi_latin[onyomiIdx]!}
                     className="bg-rose-100 text-gray-900 hover:bg-rose-700 hover:text-gray-100"
                   />
                 ))}
@@ -219,7 +206,7 @@ export default function KanjiPage({
                       voice="jp_001"
                       lang="ja"
                       text={kunyomi}
-                      latin={kanji.reading_ja_kunyomi_latin[kunyomiIdx]}
+                      latin={kanji.reading_ja_kunyomi_latin[kunyomiIdx]!}
                       other={kunyomi.replace(/^[^.]*\./, kanji.literal)}
                       className="bg-kiiro-200 text-gray-900 hover:bg-kiiro-800 hover:text-gray-100"
                     />
@@ -262,7 +249,7 @@ export default function KanjiPage({
                     voice="kr_002"
                     lang="ko"
                     text={hangeul}
-                    latin={kanji.reading_ko_latin[hangeulIdx]}
+                    latin={kanji.reading_ko_latin[hangeulIdx]!}
                     className="bg-blue-100 text-gray-900 hover:bg-blue-600 hover:text-gray-100"
                   />
                 ))}
@@ -305,8 +292,10 @@ export default function KanjiPage({
           </span>
           {sentences.map((s) => (
             <div key={s.id} lang="ja" className="flex flex-col">
-              <Ruby rubyString={s.text} />
-              <span className="text-sm">{s.translation}</span>
+              <Ruby rubyString={s.text} currentChar={kanji.literal} />
+              <span className="text-sm">
+                {s.translation.map((s) => `"${s}"`).join(', ')}
+              </span>
             </div>
           ))}
         </section>

@@ -8,9 +8,10 @@ import useSettings from '../hooks/useSettings';
 
 type RubyProps = {
   rubyString: string;
+  currentChar: string;
 };
 
-export function Ruby({ rubyString }: RubyProps) {
+export function Ruby({ rubyString, currentChar }: RubyProps) {
   const {
     settings: { preferLatin },
   } = useSettings();
@@ -19,7 +20,7 @@ export function Ruby({ rubyString }: RubyProps) {
 
   const elements = parts.map((part, index) => {
     if (index % 2 === 1) {
-      const [word, ..._readings] = part.split('|');
+      const [word, ..._readings] = part.split('|') as [string, ...string[]];
 
       const readings = preferLatin
         ? _readings.map((r) => toRomaji(r))
@@ -53,10 +54,13 @@ export function Ruby({ rubyString }: RubyProps) {
 
       return readings.map((reading, i) => (
         <ruby key={i}>
-          {isHan(word[i]) ? (
+          {isHan(word[i]!) ? (
             <Link
               href={`/kanji/${word[i]}`}
-              className="decoration-clone text-kiiro-800 underline decoration-kiiro-700 underline-offset-4 hover:no-underline"
+              className={cn(
+                'decoration-clone text-kiiro-800 underline decoration-kiiro-700 underline-offset-4 hover:no-underline',
+                currentChar === word[i] ? 'text-kiiro-700' : 'text-kiiro-900',
+              )}
             >
               {word[i]}
             </Link>
