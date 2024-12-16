@@ -19,6 +19,14 @@ const nextConfig = {
     svgr: false,
   },
   transpilePackages: ['@ziyo/ui', 'lucide-react'],
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      net: false,
+      os: false,
+    };
+    return config;
+  },
 };
 
 const plugins = [

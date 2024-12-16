@@ -49,78 +49,45 @@ export const ArrayWithTotalCount = <T extends z.ZodArray<z.AnyZodObject>>(
 };
 
 export const TatoebaResponse = z.object({
-  paging: z.object({
-    Sentences: z.object({
-      finder: z.string(),
-      page: z.number(),
-      current: z.number(),
-      count: z.number(),
-      perPage: z.number(),
-      start: z.number(),
-      end: z.number(),
-      prevPage: z.boolean(),
-      nextPage: z.boolean(),
-      pageCount: z.number(),
-      sort: z.string(),
-      direction: z.boolean(),
-      sortDefault: z.boolean(),
-      directionDefault: z.boolean(),
-    }),
-  }),
-  results: z.array(
+  data: z.array(
     z.object({
       id: z.number(),
       text: z.string(),
       lang: z.string(),
-      correctness: z.number(),
+      script: z.any(),
       license: z.string(),
+      transcriptions: z.array(
+        z.object({
+          script: z.string(),
+          text: z.string(),
+          needsReview: z.boolean(),
+          type: z.string(),
+          html: z.string(),
+        }),
+      ),
+      audios: z.array(z.any()),
       translations: z.array(
         z.array(
           z.object({
             id: z.number(),
             text: z.string(),
             lang: z.string(),
-            correctness: z.number(),
+            script: z.any(),
+            license: z.string(),
+            transcriptions: z.array(z.any()),
             audios: z.array(
               z.object({
-                id: z.number(),
                 author: z.string(),
-                sentence_id: z.number().optional(),
+                attribution_url: z.string(),
+                license: z.string(),
+                download_url: z.string(),
               }),
             ),
-            isDirect: z.boolean().optional(),
-            lang_name: z.string(),
-            dir: z.string(),
-            lang_tag: z.string(),
+            owner: z.string().optional(),
           }),
         ),
       ),
-      transcriptions: z.array(
-        z.object({
-          id: z.number(),
-          sentence_id: z.number(),
-          script: z.string(),
-          text: z.string(),
-          needsReview: z.boolean(),
-          modified: z.string(),
-
-          readonly: z.boolean(),
-          type: z.string(),
-          html: z.string(),
-          info_message: z.string(),
-        }),
-      ),
-      audios: z.array(
-        z.object({
-          id: z.number(),
-          author: z.string(),
-        }),
-      ),
-      lang_name: z.string(),
-      dir: z.string(),
-      lang_tag: z.string(),
-      is_owned_by_current_user: z.boolean(),
-      max_visible_translations: z.number(),
+      owner: z.string().optional(),
     }),
   ),
 });
