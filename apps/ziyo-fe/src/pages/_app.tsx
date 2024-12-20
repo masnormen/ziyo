@@ -1,7 +1,7 @@
 import '../styles/global.css';
 
 import type { AppProps } from 'next/app';
-import { Sora } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 import NextNProgress from 'nextjs-progressbar';
@@ -9,7 +9,7 @@ import NextNProgress from 'nextjs-progressbar';
 import { DEFAULT_SEO_PROPS } from '../configs/next-seo';
 import { ClientProviders } from '../providers/client';
 
-const bodyFont = Sora({
+const bodyFont = Inter({
   weight: ['400', '500', '600', '700'],
   style: 'normal',
   subsets: ['latin', 'latin-ext'],

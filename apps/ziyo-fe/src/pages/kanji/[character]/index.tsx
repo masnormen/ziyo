@@ -1,4 +1,5 @@
 import {
+  Switch,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -13,6 +14,7 @@ import { useCallback, useState } from 'react';
 
 import { Branding } from '../../../components/Branding';
 import { Chip } from '../../../components/Chip';
+import { GitHubLink } from '../../../components/GitHubLink';
 import { ReadingChip } from '../../../components/ReadingChip';
 import { Ruby } from '../../../components/Ruby';
 import { Search } from '../../../components/Search';
@@ -73,10 +75,12 @@ export const getServerSideProps = async ({
 export default function KanjiPage({
   kanji,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data: _sentences } = useGetSentenceList({
-    query: { character: kanji.literal },
+  const [includeUnverified, setIncludeUnverified] = useState(false);
+
+  const sentenceListQuery = useGetSentenceList({
+    query: { character: kanji.literal, includeUnapproved: includeUnverified },
   });
-  const sentences = (_sentences?.data ?? []).map((s) => ({
+  const sentences = (sentenceListQuery.data?.data ?? []).map((s) => ({
     id: s.id,
     text: s.transcriptions.flatMap((t) => t.text)[0] ?? '',
     translation: s.translations
@@ -119,17 +123,20 @@ export default function KanjiPage({
       <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-8 py-16 md:justify-start">
         <Branding small />
         <Search />
-        <Settings />
+        <div className="flex w-full flex-row items-center justify-between">
+          <GitHubLink />
+          <Settings />
+        </div>
 
         <h1
           lang={hoveredVariants ? hoveredVariants.lang : 'ja'}
-          className="mb-6 mt-8 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
+          className="mb-1 mt-4 text-8xl [text-shadow:5px_5px_60px_#DD8F09]"
         >
           {hoveredVariants ? hoveredVariants.char : kanji.literal}
         </h1>
 
         {/* Variants */}
-        <section className="mb-6 flex flex-row items-center justify-center gap-2 font-medium md:gap-4">
+        <section className="mb-2 flex flex-row items-center justify-center gap-2 font-medium md:gap-4">
           <span className="mr-3 text-sm font-semibold text-kiiro-800">
             Variants
           </span>
@@ -172,7 +179,7 @@ export default function KanjiPage({
         </div>
 
         {/* Reading-Meanings */}
-        <section className="flex w-full flex-col gap-3">
+        <section className="flex w-full flex-col gap-2">
           {kanji.reading_ja_onyomi_katakana.length > 0 && (
             <div className="flex flex-row gap-4">
               <span className="mt-0.5 min-w-20 text-sm font-semibold text-kiiro-800">
@@ -257,7 +264,7 @@ export default function KanjiPage({
             </div>
           )}
 
-          <div className="mt-6 flex flex-row gap-4">
+          <div className="mt-4 flex flex-row gap-4">
             <span className="mt-0.5 min-w-20 text-sm text-kiiro-800">
               Level
             </span>
@@ -286,19 +293,43 @@ export default function KanjiPage({
           </div>
         </section>
 
-        <section className="mt-4 flex w-full flex-col gap-4">
-          <span className="text-sm font-semibold text-kiiro-900">
-            {sentences.length > 0 ? 'Examples' : 'No examples found 😢'}
-          </span>
-          {sentences.map((s) => (
-            <div key={s.id} lang="ja" className="flex flex-col">
-              <Ruby rubyString={s.text} currentChar={kanji.literal} />
-              <span className="text-sm">
-                {s.translation.map((s) => `"${s}"`).join(', ')}
-              </span>
+        {sentenceListQuery.isLoading ? (
+          <div className="pb-5 text-sm font-semibold text-kiiro-900">
+            Loading examples...
+          </div>
+        ) : (
+          <section className="mt-4 flex w-full flex-col gap-3">
+            <div className="pb-5 text-sm font-semibold text-kiiro-900">
+              {sentences.length > 0 ? (
+                <div className="flex w-full flex-row items-center justify-between">
+                  <div>Examples</div>
+                  <div className="flex flex-row items-center gap-2 text-xs font-normal">
+                    Include unverified examples
+                    <Switch
+                      className="h-5"
+                      id="preferLatin"
+                      checked={includeUnverified}
+                      onCheckedChange={(checked) =>
+                        setIncludeUnverified(checked)
+                      }
+                    />
+                  </div>
+                </div>
+              ) : (
+                'No examples found 😢'
+              )}
             </div>
-          ))}
-        </section>
+
+            {sentences.map((s) => (
+              <div key={s.id} lang="ja" className="flex flex-col">
+                <Ruby rubyString={s.text} currentChar={kanji.literal} />
+                <span className="text-sm">
+                  {s.translation.map((s) => `"${s}"`).join(', ')}
+                </span>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </>
   );
