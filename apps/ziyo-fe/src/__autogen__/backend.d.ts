@@ -629,402 +629,210 @@ declare module "libs/types/src/index" {
         total_count: z.ZodNumber;
     }>[k_5]; } : never>, "many">;
     export const TatoebaResponse: z.ZodObject<{
-        paging: z.ZodObject<{
-            Sentences: z.ZodObject<{
-                finder: z.ZodString;
-                page: z.ZodNumber;
-                current: z.ZodNumber;
-                count: z.ZodNumber;
-                perPage: z.ZodNumber;
-                start: z.ZodNumber;
-                end: z.ZodNumber;
-                prevPage: z.ZodBoolean;
-                nextPage: z.ZodBoolean;
-                pageCount: z.ZodNumber;
-                sort: z.ZodString;
-                direction: z.ZodBoolean;
-                sortDefault: z.ZodBoolean;
-                directionDefault: z.ZodBoolean;
-            }, "strip", z.ZodTypeAny, {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            }, {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            }>;
-        }, "strip", z.ZodTypeAny, {
-            Sentences: {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            };
-        }, {
-            Sentences: {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            };
-        }>;
-        results: z.ZodArray<z.ZodObject<{
+        data: z.ZodArray<z.ZodObject<{
             id: z.ZodNumber;
             text: z.ZodString;
             lang: z.ZodString;
-            correctness: z.ZodNumber;
+            script: z.ZodAny;
             license: z.ZodString;
+            transcriptions: z.ZodArray<z.ZodObject<{
+                script: z.ZodString;
+                text: z.ZodString;
+                needsReview: z.ZodBoolean;
+                type: z.ZodString;
+                html: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }, {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }>, "many">;
+            audios: z.ZodArray<z.ZodAny, "many">;
             translations: z.ZodArray<z.ZodArray<z.ZodObject<{
                 id: z.ZodNumber;
                 text: z.ZodString;
                 lang: z.ZodString;
-                correctness: z.ZodNumber;
+                script: z.ZodAny;
+                license: z.ZodString;
+                transcriptions: z.ZodArray<z.ZodAny, "many">;
                 audios: z.ZodArray<z.ZodObject<{
-                    id: z.ZodNumber;
                     author: z.ZodString;
-                    sentence_id: z.ZodOptional<z.ZodNumber>;
+                    attribution_url: z.ZodString;
+                    license: z.ZodString;
+                    download_url: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }, {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }>, "many">;
-                isDirect: z.ZodOptional<z.ZodBoolean>;
-                lang_name: z.ZodString;
-                dir: z.ZodString;
-                lang_tag: z.ZodString;
+                owner: z.ZodOptional<z.ZodString>;
             }, "strip", z.ZodTypeAny, {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }, {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }>, "many">, "many">;
-            transcriptions: z.ZodArray<z.ZodObject<{
-                id: z.ZodNumber;
-                sentence_id: z.ZodNumber;
-                script: z.ZodString;
-                text: z.ZodString;
-                needsReview: z.ZodBoolean;
-                modified: z.ZodString;
-                readonly: z.ZodBoolean;
-                type: z.ZodString;
-                html: z.ZodString;
-                info_message: z.ZodString;
-            }, "strip", z.ZodTypeAny, {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }, {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }>, "many">;
-            audios: z.ZodArray<z.ZodObject<{
-                id: z.ZodNumber;
-                author: z.ZodString;
-            }, "strip", z.ZodTypeAny, {
-                id: number;
-                author: string;
-            }, {
-                id: number;
-                author: string;
-            }>, "many">;
-            lang_name: z.ZodString;
-            dir: z.ZodString;
-            lang_tag: z.ZodString;
-            is_owned_by_current_user: z.ZodBoolean;
-            max_visible_translations: z.ZodNumber;
+            owner: z.ZodOptional<z.ZodString>;
         }, "strip", z.ZodTypeAny, {
             id: number;
             text: string;
             lang: string;
-            correctness: number;
             license: string;
+            transcriptions: {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }[];
+            audios: any[];
             translations: {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }[][];
-            audios: {
-                id: number;
-                author: string;
-            }[];
-            lang_name: string;
-            dir: string;
-            lang_tag: string;
-            transcriptions: {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }[];
-            is_owned_by_current_user: boolean;
-            max_visible_translations: number;
+            script?: any;
+            owner?: string | undefined;
         }, {
             id: number;
             text: string;
             lang: string;
-            correctness: number;
             license: string;
+            transcriptions: {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }[];
+            audios: any[];
             translations: {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }[][];
-            audios: {
-                id: number;
-                author: string;
-            }[];
-            lang_name: string;
-            dir: string;
-            lang_tag: string;
-            transcriptions: {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }[];
-            is_owned_by_current_user: boolean;
-            max_visible_translations: number;
+            script?: any;
+            owner?: string | undefined;
         }>, "many">;
     }, "strip", z.ZodTypeAny, {
-        paging: {
-            Sentences: {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            };
-        };
-        results: {
+        data: {
             id: number;
             text: string;
             lang: string;
-            correctness: number;
             license: string;
+            transcriptions: {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }[];
+            audios: any[];
             translations: {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }[][];
-            audios: {
-                id: number;
-                author: string;
-            }[];
-            lang_name: string;
-            dir: string;
-            lang_tag: string;
-            transcriptions: {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }[];
-            is_owned_by_current_user: boolean;
-            max_visible_translations: number;
+            script?: any;
+            owner?: string | undefined;
         }[];
     }, {
-        paging: {
-            Sentences: {
-                sort: string;
-                finder: string;
-                page: number;
-                current: number;
-                count: number;
-                perPage: number;
-                start: number;
-                end: number;
-                prevPage: boolean;
-                nextPage: boolean;
-                pageCount: number;
-                direction: boolean;
-                sortDefault: boolean;
-                directionDefault: boolean;
-            };
-        };
-        results: {
+        data: {
             id: number;
             text: string;
             lang: string;
-            correctness: number;
             license: string;
+            transcriptions: {
+                type: string;
+                text: string;
+                script: string;
+                needsReview: boolean;
+                html: string;
+            }[];
+            audios: any[];
             translations: {
                 id: number;
                 text: string;
                 lang: string;
-                correctness: number;
+                license: string;
+                transcriptions: any[];
                 audios: {
-                    id: number;
+                    license: string;
                     author: string;
-                    sentence_id?: number | undefined;
+                    attribution_url: string;
+                    download_url: string;
                 }[];
-                lang_name: string;
-                dir: string;
-                lang_tag: string;
-                isDirect?: boolean | undefined;
+                script?: any;
+                owner?: string | undefined;
             }[][];
-            audios: {
-                id: number;
-                author: string;
-            }[];
-            lang_name: string;
-            dir: string;
-            lang_tag: string;
-            transcriptions: {
-                type: string;
-                id: number;
-                text: string;
-                sentence_id: number;
-                script: string;
-                needsReview: boolean;
-                modified: string;
-                readonly: boolean;
-                html: string;
-                info_message: string;
-            }[];
-            is_owned_by_current_user: boolean;
-            max_visible_translations: number;
+            script?: any;
+            owner?: string | undefined;
         }[];
     }>;
     export type TatoebaResponse = z.infer<typeof TatoebaResponse>;
