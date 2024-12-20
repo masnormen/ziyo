@@ -23,5 +23,7 @@ export const DEFAULT_SEO_PROPS: DefaultSeoProps = {
   twitter: {
     cardType: 'summary_large_image',
   },
-  additionalLinkTags: [{ rel: 'icon', href: 'https://fav.farm/ジ' }],
+  additionalLinkTags: [
+    { rel: 'icon', href: 'https://ziyo.nourman.com/ziyo.png' },
+  ],
 };
