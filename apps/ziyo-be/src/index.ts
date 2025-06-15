@@ -2,7 +2,7 @@
 
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
-import { Resvg } from '@resvg/resvg-js';
+import { Resvg } from '@resvg/resvg-wasm';
 import { isHan } from '@scriptin/is-han';
 import { Kanji } from '@ziyo/types';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
@@ -13,25 +13,20 @@ import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
 import path from 'path';
 import satori from 'satori';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
-import type { SearchParams } from 'typesense/lib/Typesense/Documents';
+import ky from 'ky';
+import { DatabaseSync } from 'node:sqlite';
+import type { SearchParams, SearchResponse } from 'typesense/lib/Typesense/Documents';
 import { fileURLToPath } from 'url';
 import { isHiragana, isKana, isKatakana, isRomaji, toRomaji } from 'wanakana';
 import { z } from 'zod';
 
-import { typesense } from './lib/typesense';
 import { IndexOpenGraphImage, KanjiOpenGraphImage } from './og-images';
 import isHangeul from './utils/isHangeul';
 import { err, ok, okPagination } from './utils/response';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const db = await open({
-  filename: `${__dirname}/assets/kanji.sqlite`,
-  driver: sqlite3.cached.Database,
-  mode: sqlite3.OPEN_READONLY,
-});
+const db = new DatabaseSync(`${__dirname}/assets/kanji.sqlite`);
 
 const app = new Hono()
   .basePath('/api')
@@ -74,8 +69,8 @@ const app = new Hono()
 
       const parsedCharData = query.charData
         ? CharDataSchema.parse(
-            Buffer.from(query.charData, 'base64').toString('utf-8'),
-          )
+          Buffer.from(query.charData, 'base64').toString('utf-8'),
+        )
         : null;
 
       const imageHash = parsedCharData
@@ -98,8 +93,8 @@ const app = new Hono()
 
       const OpenGraphImage = parsedCharData
         ? KanjiOpenGraphImage({
-            charData: parsedCharData,
-          })
+          charData: parsedCharData,
+        })
         : IndexOpenGraphImage();
 
       const svg = await satori(OpenGraphImage, {
@@ -168,10 +163,9 @@ const app = new Hono()
     async (c) => {
       const { character } = c.req.valid('query');
 
-      const _kanji = await db.get(
+      const _kanji = db.prepare(
         "SELECT * FROM 'kanji' WHERE literal = ? LIMIT 1",
-        [character],
-      );
+      ).get(character);
 
       const kanji = Kanji.safeParse(_kanji);
       if (!kanji.success) {
@@ -236,7 +230,7 @@ const app = new Hono()
         search = _search.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
       }
 
-      const searchParams: SearchParams = (() => {
+      const searchParams = (() => {
         switch (searchMode) {
           case 'latin':
             return {
@@ -246,38 +240,52 @@ const app = new Hono()
               query_by_weights: '10,10,5,8,7',
               text_match_type: 'max_weight',
               sort_by: '_text_match:desc,freq_percentage:desc',
-              limit: limit,
-              offset: offset,
+              limit: limit.toString(),
+              offset: offset.toString(),
             };
           case 'hangeul':
             return {
               q: search,
               query_by: 'reading_ko_hangeul',
-              limit: limit,
-              offset: offset,
+              limit: limit.toString(),
+              offset: offset.toString(),
             };
           default:
             // Han mode
             return {
               q: search,
               query_by: 'literal,literal_kyujitai,literal_simplified',
-              limit: limit,
-              offset: offset,
+              limit: limit.toString(),
+              offset: offset.toString(),
             };
         }
-      })();
+      })()
 
-      const res = await typesense
-        .collections<Kanji>('kanji')
-        .documents()
-        .search(searchParams);
+      const res = await ky.get<SearchResponse<Kanji>>(`${process.env.TYPESENSE_API_URL}/collections/kanji/documents/search`,
+        {
+          searchParams: searchParams as Record<string, string>,
+          headers: {
+            'Accept': 'application/json, text/plain',
+            'X-TYPESENSE-API-KEY': process.env.TYPESENSE_API_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (res.status !== 200) {
+        throw new HTTPException(500, {
+          message: "There's a problem processing your request.",
+        });
+      }
+
+      const data = await res.json()
 
       return c.json(
         okPagination({
-          data: res.hits?.map((hit) => hit.document) ?? [],
+          data: data.hits?.map((hit) => hit.document) ?? [],
           limit,
           offset,
-          total: res.found,
+          total: data.found,
         }),
       );
     },

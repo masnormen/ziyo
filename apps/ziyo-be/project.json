@@ -6,12 +6,16 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/ziyo-be",
-        "format": ["esm"],
+        "format": [
+          "esm"
+        ],
         "bundle": true,
         "main": "apps/ziyo-be/src/index.ts",
         "tsConfig": "apps/ziyo-be/tsconfig.app.json",
@@ -22,6 +26,9 @@
             "output": "."
           }
         ],
+        "loader": {
+          ".node": "file"
+        },
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -59,32 +66,44 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/ziyo-be/jest.config.ts"
       }
     },
     "container": {
       "executor": "@nx-tools/nx-container:build",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "engine": "docker",
         "context": "dist/apps/ziyo-be",
         "file": "apps/ziyo-be/Dockerfile",
-        "platforms": ["linux/amd64"]
+        "platforms": [
+          "linux/amd64"
+        ]
       },
       "configurations": {
         "local": {
-          "tags": ["masnormen/ziyo-be-dev:latest"],
+          "tags": [
+            "masnormen/ziyo-be-dev:latest"
+          ],
           "push": false
         },
         "production": {
-          "tags": ["masnormen/ziyo-be:latest"],
+          "tags": [
+            "masnormen/ziyo-be:latest"
+          ],
           "push": true
         }
       }

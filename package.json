@@ -13,17 +13,17 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@resvg/resvg-js": "^2.6.0",
+    "@resvg/resvg-wasm": "^2.6.2",
     "@scriptin/is-han": "^1.0.1",
     "@swc/helpers": "~0.5.2",
     "@tanstack/react-query": "^5.15.0",
     "@uidotdev/usehooks": "^2.4.1",
-    "axios": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "hono": "^3.11.9",
     "jotai": "^2.6.0",
+    "ky": "^1.8.1",
     "lucide-react": "^0.300.0",
     "next": "13.5.5",
     "next-seo": "^6.4.0",
@@ -34,17 +34,15 @@
     "satori": "^0.10.11",
     "satori-html": "^0.3.2",
     "sql-template-strings": "^2.2.2",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.6",
     "styled-components": "5.3.6",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "tslib": "^2.6.2",
-    "typesense": "^1.7.2",
+    "typesense": "2.0.3",
     "vaul": "^0.8.9",
     "wanakana": "^5.3.1",
-    "zod": "^3.22.4",
-    "zod_utilz": "^0.7.3"
+    "zod": "^3.25.64",
+    "zod_utilz": "^0.8.4"
   },
   "devDependencies": {
     "@nx-tools/nx-container": "^5.1.0",
@@ -65,7 +63,7 @@
     "@testing-library/react": "14.1.2",
     "@types/jest": "^29.5.11",
     "@types/kyujitai": "^1.3.3",
-    "@types/node": "20.10.5",
+    "@types/node": "24.0.1",
     "@types/react": "18.2.45",
     "@types/react-dom": "18.2.18",
     "@types/react-is": "18.2.4",
@@ -97,5 +95,6 @@
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "~5.3.3"
-  }
+  },
+  "packageManager": "pnpm@10.12.1"
 }

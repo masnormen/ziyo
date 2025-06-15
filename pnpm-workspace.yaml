@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - '@swc/core'
+  - esbuild
+  - nx
+  - sqlite3
+  - styled-components
+  
