@@ -15,7 +15,10 @@ import path from 'path';
 import satori from 'satori';
 import ky from 'ky';
 import { DatabaseSync } from 'node:sqlite';
-import type { SearchParams, SearchResponse } from 'typesense/lib/Typesense/Documents';
+import type {
+  SearchParams,
+  SearchResponse,
+} from 'typesense/lib/Typesense/Documents';
 import { fileURLToPath } from 'url';
 import { isHiragana, isKana, isKatakana, isRomaji, toRomaji } from 'wanakana';
 import { z } from 'zod';
@@ -69,8 +72,8 @@ const app = new Hono()
 
       const parsedCharData = query.charData
         ? CharDataSchema.parse(
-          Buffer.from(query.charData, 'base64').toString('utf-8'),
-        )
+            Buffer.from(query.charData, 'base64').toString('utf-8'),
+          )
         : null;
 
       const imageHash = parsedCharData
@@ -93,8 +96,8 @@ const app = new Hono()
 
       const OpenGraphImage = parsedCharData
         ? KanjiOpenGraphImage({
-          charData: parsedCharData,
-        })
+            charData: parsedCharData,
+          })
         : IndexOpenGraphImage();
 
       const svg = await satori(OpenGraphImage, {
@@ -163,9 +166,9 @@ const app = new Hono()
     async (c) => {
       const { character } = c.req.valid('query');
 
-      const _kanji = db.prepare(
-        "SELECT * FROM 'kanji' WHERE literal = ? LIMIT 1",
-      ).get(character);
+      const _kanji = db
+        .prepare("SELECT * FROM 'kanji' WHERE literal = ? LIMIT 1")
+        .get(character);
 
       const kanji = Kanji.safeParse(_kanji);
       if (!kanji.success) {
@@ -259,18 +262,19 @@ const app = new Hono()
               offset: offset.toString(),
             };
         }
-      })()
+      })();
 
-      const res = await ky.get<SearchResponse<Kanji>>(`${process.env.TYPESENSE_API_URL}/collections/kanji/documents/search`,
+      const res = await ky.get<SearchResponse<Kanji>>(
+        `${process.env.TYPESENSE_API_URL}/collections/kanji/documents/search`,
         {
           searchParams: searchParams as Record<string, string>,
           headers: {
-            'Accept': 'application/json, text/plain',
+            Accept: 'application/json, text/plain',
             'X-TYPESENSE-API-KEY': process.env.TYPESENSE_API_KEY,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+            'Content-Type': 'application/json',
+          },
+        },
+      );
 
       if (res.status !== 200) {
         throw new HTTPException(500, {
@@ -278,7 +282,7 @@ const app = new Hono()
         });
       }
 
-      const data = await res.json()
+      const data = await res.json();
 
       return c.json(
         okPagination({
