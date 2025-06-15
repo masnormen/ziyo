@@ -4,7 +4,7 @@ FROM docker.io/node:22.16.0-alpine as deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /usr/src/app
 COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm@latest-10
+RUN npm install -g pnpm@10.12.1
 RUN pnpm install --prod --frozen-lockfile
 
 # Production image, copy all the files and run nest
