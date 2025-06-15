@@ -9,16 +9,15 @@ RUN pnpm install --prod --frozen-lockfile
 
 # Production image, copy all the files and run next
 FROM docker.io/node:22.16.0-alpine as runner
-RUN apk add --no-cache dumb-init
 ENV NODE_ENV production
 ENV PORT 3000
 WORKDIR /usr/src/app
-COPY --from=deps --chown=node:node /usr/src/app/node_modules ./node_modules
-COPY --from=deps --chown=node:node /usr/src/app/package.json ./package.json
 COPY --chown=node:node public ./public
-COPY --chown=node:node .next ./.next
+COPY --chown=node:node .next/standalone .
+COPY --chown=node:node .next/static ./.next/static
 USER node
 EXPOSE 3000
 # Uncomment the following line in case you want to disable telemetry.
 ENV NEXT_TELEMETRY_DISABLED 1
-CMD ["dumb-init", "node_modules/.bin/next", "start"]
+
+CMD ["node", "apps/ziyo-fe/server.js"]
