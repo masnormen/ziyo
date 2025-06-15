@@ -1,5 +1,7 @@
 ///<amd-module name='~api-types'/>
 
+import { DatabaseSync } from 'node:sqlite';
+
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
 import { Resvg } from '@resvg/resvg-wasm';
@@ -11,14 +13,10 @@ import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { logger } from 'hono/logger';
+import ky from 'ky';
 import path from 'path';
 import satori from 'satori';
-import ky from 'ky';
-import { DatabaseSync } from 'node:sqlite';
-import type {
-  SearchParams,
-  SearchResponse,
-} from 'typesense/lib/Typesense/Documents';
+import type { SearchResponse } from 'typesense/lib/Typesense/Documents';
 import { fileURLToPath } from 'url';
 import { isHiragana, isKana, isKatakana, isRomaji, toRomaji } from 'wanakana';
 import { z } from 'zod';
