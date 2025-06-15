@@ -1,5 +1,6 @@
 ///<amd-module name='~api-types'/>
 
+// eslint-disable-next-line import/no-unresolved
 import { DatabaseSync } from 'node:sqlite';
 
 import { serve } from '@hono/node-server';
