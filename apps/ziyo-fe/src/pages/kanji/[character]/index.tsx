@@ -300,34 +300,35 @@ export default function KanjiPage({
         ) : (
           <section className="mt-4 flex w-full flex-col gap-3">
             <div className="pb-5 text-sm font-semibold text-kiiro-900">
-              {sentences.length > 0 ? (
-                <div className="flex w-full flex-row items-center justify-between">
-                  <div>Examples</div>
-                  <div className="hidden flex-row items-center gap-2 text-xs font-normal sm:flex">
-                    Show unboring examples (unverified)
-                    <Switch
-                      className="h-5"
-                      id="preferLatin"
-                      checked={includeUnverified}
-                      onCheckedChange={(checked) =>
-                        setIncludeUnverified(checked)
-                      }
-                    />
-                  </div>
+              <div className="flex w-full flex-row items-center justify-between">
+                <div>Examples</div>
+                <div className="hidden flex-row items-center gap-2 text-xs font-normal sm:flex">
+                  Unboring examples (unverified)
+                  <Switch
+                    className="h-5"
+                    id="preferLatin"
+                    checked={includeUnverified}
+                    onCheckedChange={(checked) => setIncludeUnverified(checked)}
+                  />
                 </div>
-              ) : (
-                'No examples found 😢'
-              )}
+              </div>
             </div>
 
-            {sentences.map((s) => (
-              <div key={s.id} lang="ja" className="flex flex-col">
-                <Ruby rubyString={s.text} currentChar={kanji.literal} />
-                <span className="text-sm">
-                  {s.translation.map((s) => `"${s}"`).join(', ')}
-                </span>
+            {sentences.length > 0 ? (
+              sentences.map((s) => (
+                <div key={s.id} lang="ja" className="flex flex-col">
+                  <Ruby rubyString={s.text} currentChar={kanji.literal} />
+                  <span className="text-sm">
+                    {s.translation.map((s) => `"${s}"`).join(', ')}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="text-sm italic text-gray-500">
+                No example sentences found.{' '}
+                {includeUnverified && '(Try switching the toggle above)'}
               </div>
-            ))}
+            )}
           </section>
         )}
       </div>
