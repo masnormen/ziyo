@@ -5,7 +5,7 @@ import { DatabaseSync } from 'node:sqlite';
 
 import { serve } from '@hono/node-server';
 import { zValidator } from '@hono/zod-validator';
-import { Resvg } from '@resvg/resvg-wasm';
+import { initWasm, Resvg } from '@resvg/resvg-wasm';
 import { isHan } from '@scriptin/is-han';
 import { Kanji } from '@ziyo/types';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
@@ -29,6 +29,8 @@ import { err, ok, okPagination } from './utils/response';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const db = new DatabaseSync(`${__dirname}/assets/kanji.sqlite`);
+
+await initWasm(readFileSync(path.join(__dirname, './assets/index_bg.wasm')));
 
 const app = new Hono()
   .basePath('/api')
