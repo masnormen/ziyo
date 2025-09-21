@@ -120,7 +120,7 @@ export default function KanjiPage({
         }}
       />
 
-      <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-8 py-16 md:justify-start">
+      <div className="!z-10 mx-auto flex h-full w-full max-w-[600px] flex-col items-center justify-center gap-6 px-4 py-16 md:justify-start">
         <Branding small />
         <Search />
         <div className="flex w-full flex-row items-center justify-between">
@@ -138,7 +138,7 @@ export default function KanjiPage({
         {/* Variants */}
         <section className="mb-2 flex flex-row items-center justify-center gap-2 font-medium md:gap-4">
           <span className="mr-3 text-sm font-semibold text-kiiro-800">
-            Variants
+            Variants <span className="font-normal text-gray-400">(hover)</span>
           </span>
           {kanji.literal_simplified && (
             <VariantChip
@@ -303,8 +303,8 @@ export default function KanjiPage({
               {sentences.length > 0 ? (
                 <div className="flex w-full flex-row items-center justify-between">
                   <div>Examples</div>
-                  <div className="flex flex-row items-center gap-2 text-xs font-normal">
-                    Include unverified examples
+                  <div className="hidden flex-row items-center gap-2 text-xs font-normal sm:flex">
+                    Show unboring examples (unverified)
                     <Switch
                       className="h-5"
                       id="preferLatin"

@@ -16,10 +16,13 @@ export function useGetSentenceList({
       const params = new URLSearchParams({
         lang: 'jpn',
         q: query.character,
-        trans: 'eng',
+        'trans:lang': 'eng',
+        'trans:is_direct': 'yes',
+        'showtrans:lang': 'eng',
+        'showtrans:is_direct': 'yes',
         sort: 'relevance',
-        limit: '20',
-        ...(query.includeUnapproved ? { include_unapproved: 'yes' } : {}),
+        limit: '15',
+        ...(query.includeUnapproved ? { is_unapproved: 'yes' } : {}),
       });
       url.search = params.toString();
 
